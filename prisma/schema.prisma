@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  INSTRUCTOR
+  STUDENT
+}
+
+enum Group {
+  GROUP_01
+  GROUP_02
+  GROUP_03
+  GROUP_04
+}
+
+enum PracticalLevel {
+  C_JOVEM
+  C_OFICIAL
+  OFICIALIZACAO
+}
+
+enum TaskStatus {
+  PENDING
+  COMPLETED
+}
+
+enum TaskCategory {
+  MSA
+  METODO
+  HINOS
+}
+
+model User {
+  id                String           @id @default(uuid())
+  name              String
+  email             String           @unique
+  phone             String           @unique
+  password_hash     String
+  role              UserRole
+  instrument        String?
+  group             Group?
+  practical_level   PracticalLevel?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  instructorTasks   Task[]           @relation("InstructorTasks")
+  studentTasks      Task[]           @relation("StudentTasks")
+  instructorNotices Notice[]         @relation("InstructorNotices")
+  ProgramMinimum    ProgramMinimum[]
+}
+
+model Task {
+  id            String       @id @default(uuid())
+  title         String
+  description   String
+  observation   String?
+  delivery_date DateTime?
+  status        TaskStatus   @default(PENDING)
+  category      TaskCategory
+  instructorId  String
+  studentId     String?
+  group         Group?
+  instructor    User         @relation("InstructorTasks", fields: [instructorId], references: [id])
+  student       User?        @relation("StudentTasks", fields: [studentId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Notice {
+  id           String   @id @default(uuid())
+  title        String
+  description  String
+  instructorId String
+  instructor   User     @relation("InstructorNotices", fields: [instructorId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ProgramMinimum {
+  id              String            @id @default(uuid())
+  instrument      String
+  meetings        Meeting[]
+  cults           Cult[]
+  officialization Officialization[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  instructorId    String
+  instructor      User              @relation(fields: [instructorId], references: [id])
+}
+
+model Meeting {
+  id               String         @id @default(uuid())
+  name             String
+  programMinimumId String
+  programMinimum   ProgramMinimum @relation(fields: [programMinimumId], references: [id])
+}
+
+model Cult {
+  id               String         @id @default(uuid())
+  name             String
+  programMinimumId String
+  programMinimum   ProgramMinimum @relation(fields: [programMinimumId], references: [id])
+}
+
+model Officialization {
+  id               String         @id @default(uuid())
+  name             String
+  programMinimumId String
+  programMinimum   ProgramMinimum @relation(fields: [programMinimumId], references: [id])
+}

@@ -1,0 +1,187 @@
+@baseUrl = http://localhost:3333
+@authToken = {{login.response.body.token}}
+
+
+# @name ListarUsuarios
+GET {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CadastroUsuario
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Carlos",
+  "email": "carlos@teste.com",
+  "phone": "123456789345",
+  "password": "123456",
+  "role": "INSTRUCTOR",
+  "instrument": "Trompete"
+}
+
+###
+
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "felipe@teste.com",
+  "password": "123456"
+}
+
+###
+
+# @name AtualizarUsuario
+PUT {{baseUrl}}/users/764cb886-ea2b-4f67-b10c-b4c9633ffed2
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Pedro",
+  "instrument": "Violino",
+  "group": "GROUP_01",
+  "role": "STUDENT",
+  "practical_level": "C_OFICIAL"
+}
+
+###
+
+# @name RemoverUsuario
+DELETE {{baseUrl}}/users/8cfb959d-8cc4-4cf9-8090-af8e3eb8d1dd
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarTarefas
+
+GET {{baseUrl}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarTarefa
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Estudar teoria teste",
+  "description": "Revisar teoria musical básica",
+  "category": "MSA",
+  "observation": "Focar em escalas maiores",
+  "delivery_date": "2024-08-15",
+  "group": "GROUP_02"
+}
+
+###
+
+# @name AtualizarStatusTarefa
+PUT {{baseUrl}}/tasks/22c0b46d-6881-4e49-b45c-ef42d75f7f12/status
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "COMPLETED"
+}
+
+###
+
+# @name ListarTarefasPorInstrutor
+GET {{baseUrl}}/tasks/instructor?instructorId=56398f61-7d35-4339-bead-28abc3fae9cc
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarTarefasPorAluno
+GET {{baseUrl}}/tasks/student?studentId=1606e554-be31-4146-be79-eb919365c6c1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+###
+
+# @name RemoverTarefas
+DELETE {{baseUrl}}/tasks/cfa3fcc4-c736-4862-aea8-8ea65297f671
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarAvisos
+GET {{baseUrl}}/notices
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarAviso
+POST {{baseUrl}}/notices
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Novo aviso teste",
+  "description": "Reunião geral na próxima semana."
+}
+
+###
+
+# @name AtualizarAviso
+PUT {{baseUrl}}/notices/dd3769b6-43f9-4354-aca8-6d3923541df7
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "teste",
+  "description": "Atualização na descrição do aviso."
+}
+
+###
+
+# @name RemoverAviso
+DELETE {{baseUrl}}/notices/8568b592-3d70-4e17-a341-18333873c556
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarProgramaMinimos
+GET {{baseUrl}}/program-minimum
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarProgramaMinimos
+POST {{baseUrl}}/program-minimum
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "instrument": "Piano",
+  "meetings": [
+    { "name": "N. LAOUREX Vol. 1 até pág. 35" },
+    { "name": "CCB até pág. 46 (lição 113) + H. SITT Vol 1 até lição 6" },
+    { "name": "MÉTODO FACILITADO - Ed. Britten - até pág. 40" },
+    { "name": "Obs.: Hinos 431 a 480 soprano no natural" }
+  ],
+  "cults": [
+    { "name": "N. LAOUREX Vol. 1 até pág. 35" },
+    { "name": "CCB até pág. 46 (lição 113) + H. SITT Vol 1 até lição 6" },
+    { "name": "MÉTODO FACILITADO - Ed. Britten - até pág. 40" },
+    { "name": "Obs.: Hinos 431 a 480 soprano no natural" }
+  ],
+  "officialization": [
+    { "name": "N. LAOUREX Vol. 1 até pág. 35" },
+    { "name": "CCB até pág. 46 (lição 113) + H. SITT Vol 1 até lição 6" },
+    { "name": "MÉTODO FACILITADO - Ed. Britten - até pág. 40" },
+    { "name": "Obs.: Hinos 431 a 480 soprano no natural" }
+  ]
+}
+
+###
