@@ -15,12 +15,14 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Carlos",
-  "email": "carlos@teste.com",
-  "phone": "123456789345",
+  "name": "Pedro",
+  "instrument": "Violino",
+  "group": "GROUP_01",
+  "role": "STUDENT",
+  "email": "pedro@teste.com",
+  "phone": "123456789346",
   "password": "123456",
-  "role": "INSTRUCTOR",
-  "instrument": "Trompete"
+  "pratical_level": "C_OFICIAL"
 }
 
 ###
@@ -30,21 +32,21 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-  "email": "felipe@teste.com",
+  "email": "carlos@teste.com",
   "password": "123456"
 }
 
 ###
 
 # @name AtualizarUsuario
-PUT {{baseUrl}}/users/764cb886-ea2b-4f67-b10c-b4c9633ffed2
+PUT {{baseUrl}}/users/e1f5f41e-c2d7-436c-a9f1-858555cde4f2
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
   "name": "Pedro",
   "instrument": "Violino",
-  "group": "GROUP_01",
+  "group": "GROUP_02",
   "role": "STUDENT",
   "practical_level": "C_OFICIAL"
 }
@@ -100,13 +102,13 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name ListarTarefasPorAluno
-GET {{baseUrl}}/tasks/student?studentId=1606e554-be31-4146-be79-eb919365c6c1
+GET {{baseUrl}}/tasks/student?studentId=e1f5f41e-c2d7-436c-a9f1-858555cde4f2
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 ###
 
 # @name RemoverTarefas
-DELETE {{baseUrl}}/tasks/cfa3fcc4-c736-4862-aea8-8ea65297f671
+DELETE {{baseUrl}}/tasks/c6123143-ee02-4b37-8f4d-0b93b9d9be70
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -132,7 +134,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name AtualizarAviso
-PUT {{baseUrl}}/notices/dd3769b6-43f9-4354-aca8-6d3923541df7
+PUT {{baseUrl}}/notices/729717b4-ab3b-413f-b37e-6c81c8a94e48
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -185,3 +187,75 @@ Authorization: Bearer {{authToken}}
 }
 
 ###
+
+# @name ListarChamada
+GET {{baseUrl}}/attendance
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarChamada
+POST {{baseUrl}}/attendance
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "date": "2024-11-15T00:00:00.000Z",
+  "studentId": "764cb886-ea2b-4f67-b10c-b4c9633ffed2",
+  "instructorId": "56398f61-7d35-4339-bead-28abc3fae9cc",
+  "status": "PRESENT"
+}
+
+###
+
+# @name AtualizarChamada
+PUT {{baseUrl}}/attendance/860dd6a2-afa6-40e4-9f03-8959bf34a9b4
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "EXCUSED"
+}
+
+###
+
+# @name RemoverChamada
+DELETE {{baseUrl}}/attendance/860dd6a2-afa6-40e4-9f03-8959bf34a9b4
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarPlanoDeAulas
+GET {{baseUrl}}/class-plan
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarPlanoDeAulas
+POST {{baseUrl}}/class-plan
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "group": 1,
+  "date": "2025-02-15",
+  "subject": "Música, Ritmo(Dif de som e Ruídos) - Notas musicais",
+  "page": "7",
+  "exercise": "	1 ao 4",
+}
+
+# @name AtualizarChamada
+PUT {{baseUrl}}/class-plan/860dd6a2-afa6-40e4-9f03-8959bf34a9b4
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "group": 1,
+  "date": "2025-02-15",
+  "subject": "Música, Ritmo(Dif de som e Ruídos) - Notas musicais",
+  "page": "7",
+  "exercise": "	1 ao 4",
+}

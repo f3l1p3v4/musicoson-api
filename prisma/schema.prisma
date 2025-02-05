@@ -37,21 +37,23 @@ enum TaskCategory {
 }
 
 model User {
-  id                String           @id @default(uuid())
-  name              String
-  email             String           @unique
-  phone             String           @unique
-  password_hash     String
-  role              UserRole
-  instrument        String?
-  group             Group?
-  practical_level   PracticalLevel?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  instructorTasks   Task[]           @relation("InstructorTasks")
-  studentTasks      Task[]           @relation("StudentTasks")
-  instructorNotices Notice[]         @relation("InstructorNotices")
-  ProgramMinimum    ProgramMinimum[]
+  id                   String           @id @default(uuid())
+  name                 String
+  email                String           @unique
+  phone                String           @unique
+  password_hash        String
+  role                 UserRole
+  instrument           String?
+  group                Group?
+  practical_level      PracticalLevel?
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  instructorTasks      Task[]           @relation("InstructorTasks")
+  studentTasks         Task[]           @relation("StudentTasks")
+  instructorNotices    Notice[]         @relation("InstructorNotices")
+  studentAttendance    Attendance[]     @relation("StudentAttendance")
+  instructorAttendance Attendance[]     @relation("InstructorAttendance")
+  programMinimums      ProgramMinimum[]
 }
 
 model Task {
@@ -112,4 +114,22 @@ model Officialization {
   name             String
   programMinimumId String
   programMinimum   ProgramMinimum @relation(fields: [programMinimumId], references: [id])
+}
+
+model Attendance {
+  id           String           @id @default(uuid())
+  date         DateTime
+  student      User?            @relation("StudentAttendance", fields: [studentId], references: [id])
+  studentId    String?
+  instructor   User             @relation("InstructorAttendance", fields: [instructorId], references: [id])
+  instructorId String
+  status       AttendanceStatus
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  EXCUSED
 }
