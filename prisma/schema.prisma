@@ -54,6 +54,7 @@ model User {
   studentAttendance    Attendance[]     @relation("StudentAttendance")
   instructorAttendance Attendance[]     @relation("InstructorAttendance")
   programMinimums      ProgramMinimum[]
+  ClassPlan            ClassPlan[]
 }
 
 model Task {
@@ -132,4 +133,18 @@ enum AttendanceStatus {
   PRESENT
   ABSENT
   EXCUSED
+}
+
+model ClassPlan {
+  id        String   @id @default(uuid())
+  group     Group
+  date      DateTime
+  subject   String
+  page      String
+  exercise  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  instructorId String
+  instructor   User   @relation(fields: [instructorId], references: [id])
 }

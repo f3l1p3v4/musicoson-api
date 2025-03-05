@@ -240,12 +240,14 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "group": 1,
-  "date": "2025-02-15",
-  "subject": "Música, Ritmo(Dif de som e Ruídos) - Notas musicais",
-  "page": "7",
-  "exercise": "	1 ao 4",
+  "group": "GROUP_01",
+  "date": "2025-02-10T19:00:11.000Z",
+  "subject": "Teoria Musical",
+  "page": "12",
+  "exercise": "Exercício 3"
 }
+
+###
 
 # @name AtualizarChamada
 PUT {{baseUrl}}/class-plan/860dd6a2-afa6-40e4-9f03-8959bf34a9b4
@@ -253,9 +255,9 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "group": 1,
-  "date": "2025-02-15",
-  "subject": "Música, Ritmo(Dif de som e Ruídos) - Notas musicais",
-  "page": "7",
-  "exercise": "	1 ao 4",
+  "group": "GROUP_01",
+  "date": "2025-02-10T19:00:11.000Z",
+  "subject": "Teoria Musical",
+  "page": "12",
+  "exercise": "Exercício 3"
 }
