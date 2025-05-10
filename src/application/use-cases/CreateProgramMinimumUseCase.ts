@@ -10,6 +10,16 @@ export class CreateProgramMinimumUseCase {
     instructorId: string,
     data: CreateProgramMinimumDTO,
   ): Promise<ProgramMinimum> {
+    if (!data.instrument) {
+      throw new Error('Instrument is required')
+    }
+
+    if (!data.meetings && !data.cults && !data.officialization) {
+      throw new Error(
+        'At least one of meetings, cults or officialization must be provided',
+      )
+    }
+
     const programMinimum = await this.programMinimumRepository.create(
       data,
       instructorId,

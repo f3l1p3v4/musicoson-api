@@ -44,7 +44,7 @@ export class ProgramMinimumRepository implements IProgramMinimumRepository {
 
     return await prisma.programMinimum.create({
       data: {
-        instrument: data.instrument || '', // Garantir que o valor seja uma string
+        instrument: data.instrument || '',
         meetings: {
           create:
             data.meetings?.map((meeting) => ({
@@ -69,7 +69,13 @@ export class ProgramMinimumRepository implements IProgramMinimumRepository {
   }
 
   async findAll(): Promise<ProgramMinimum[]> {
-    return await prisma.programMinimum.findMany()
+    return await prisma.programMinimum.findMany({
+      include: {
+        meetings: true,
+        cults: true,
+        officialization: true,
+      },
+    })
   }
 
   async update(

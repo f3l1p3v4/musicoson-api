@@ -7,17 +7,14 @@ export class CreateClassPlanUseCase {
   constructor(private classPlanRepository: IClassPlanRepository) {}
 
   async execute(data: CreateClassPlanDTO): Promise<ClassPlan> {
-    const formattedDate = new Date(data.date)
-
-    if (isNaN(formattedDate.getTime())) {
+    if (!data.date || isNaN(new Date(data.date).getTime())) {
       throw new Error('Data inválida fornecida.')
     }
 
-    console.log('Instructor ID:', data.instructor_id)
+    if (!data.instructor_id) {
+      throw new Error('Instructor ID é obrigatório.')
+    }
 
-    return this.classPlanRepository.create({
-      ...data,
-      date: formattedDate, // 🔥 Garante que a data está no formato correto
-    })
+    return this.classPlanRepository.create(data) // 🔥 Agora `date` já é `Date`
   }
 }

@@ -69,6 +69,25 @@ export class UserController {
     }
   }
 
+  async findById(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params
+      const userRepository = new UserRepository()
+      const user = await userRepository.findById(id)
+
+      if (!user) {
+        return res.status(404).json({ error: 'Usuário não encontrado' })
+      }
+
+      return res.status(200).json(user)
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(500).json({ error: error.message })
+      }
+      return res.status(500).json({ error: 'Erro inesperado' })
+    }
+  }
+
   async update(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params

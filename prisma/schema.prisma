@@ -37,24 +37,26 @@ enum TaskCategory {
 }
 
 model User {
-  id                   String           @id @default(uuid())
+  id                   String            @id @default(uuid())
   name                 String
-  email                String           @unique
-  phone                String           @unique
+  email                String            @unique
+  phone                String            @unique
   password_hash        String
   role                 UserRole
   instrument           String?
   group                Group?
   practical_level      PracticalLevel?
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
-  instructorTasks      Task[]           @relation("InstructorTasks")
-  studentTasks         Task[]           @relation("StudentTasks")
-  instructorNotices    Notice[]         @relation("InstructorNotices")
-  studentAttendance    Attendance[]     @relation("StudentAttendance")
-  instructorAttendance Attendance[]     @relation("InstructorAttendance")
+  semester             Semester?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  instructorTasks      Task[]            @relation("InstructorTasks")
+  studentTasks         Task[]            @relation("StudentTasks")
+  instructorNotices    Notice[]          @relation("InstructorNotices")
+  studentAttendance    Attendance[]      @relation("StudentAttendance")
+  instructorAttendance Attendance[]      @relation("InstructorAttendance")
   programMinimums      ProgramMinimum[]
   ClassPlan            ClassPlan[]
+  StudentProgress      StudentProgress[]
 }
 
 model Task {
@@ -118,15 +120,22 @@ model Officialization {
 }
 
 model Attendance {
-  id           String           @id @default(uuid())
-  date         DateTime
-  student      User?            @relation("StudentAttendance", fields: [studentId], references: [id])
-  studentId    String?
-  instructor   User             @relation("InstructorAttendance", fields: [instructorId], references: [id])
+  id     String           @id @default(uuid())
+  date   DateTime
+  status AttendanceStatus
+
+  studentId String?
+  student   User?   @relation("StudentAttendance", fields: [studentId], references: [id])
+
   instructorId String
-  status       AttendanceStatus
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+  instructor   User   @relation("InstructorAttendance", fields: [instructorId], references: [id])
+
+  classNumber Int?
+  classPlanId String?
+  classPlan   ClassPlan? @relation("ClassPlanAttendance", fields: [classPlanId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum AttendanceStatus {
@@ -135,16 +144,50 @@ enum AttendanceStatus {
   EXCUSED
 }
 
+enum Semester {
+  S1
+  S2
+}
+
 model ClassPlan {
-  id        String   @id @default(uuid())
-  group     Group
-  date      DateTime
-  subject   String
-  page      String
-  exercise  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String    @id @default(uuid())
+  group       Group
+  date        DateTime
+  subject     String
+  page        String
+  exercise    String
+  classNumber Int?
+  classPlanId String?
+  semester    Semester?
 
   instructorId String
   instructor   User   @relation(fields: [instructorId], references: [id])
+
+  ClassPlanAttendance Attendance[] @relation("ClassPlanAttendance")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model StudentProgress {
+  id            String        @id @default(uuid())
+  student       User          @relation(fields: [studentId], references: [id])
+  studentId     String
+  previousGroup String
+  newGroup      String?
+  newGroupId    String?
+  passed        Boolean       @default(false)
+  attempts      ExamAttempt[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model ExamAttempt {
+  id                String          @id @default(uuid())
+  studentProgress   StudentProgress @relation(fields: [studentProgressId], references: [id])
+  studentProgressId String
+  score             Float
+  attemptNumber     Int
+  isRecovery        Boolean         @default(false)
+  createdAt         DateTime        @default(now())
 }

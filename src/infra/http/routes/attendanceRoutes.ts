@@ -22,6 +22,16 @@ router.get('/', ensureAuthenticated, ensureInstructor, (req, res) =>
   attendanceController.listAttendances(req, res),
 )
 
+// Rota para obter alunos com suas presenças
+router.get('/students', ensureAuthenticated, ensureInstructor, (req, res) =>
+  attendanceController.getAllStudentsWithAttendance(req, res),
+)
+
+// Rota para buscar as aulas de um aluno específico
+router.get('/student/:studentId', ensureAuthenticated, (req, res) =>
+  attendanceController.getUserAttendancesWithClassPlans(req, res),
+)
+
 // Rota para atualizar o status da presença
 router.put('/:id', ensureAuthenticated, ensureInstructor, (req, res) =>
   attendanceController.updateAttendance(req, res),

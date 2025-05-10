@@ -1,11 +1,18 @@
 @baseUrl = http://localhost:3333
-@authToken = {{login.response.body.token}}
+@authToken = {{login.response.body.token.token}}
 
 
 # @name ListarUsuarios
 GET {{baseUrl}}/users
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{authToken}} 
+
+###
+
+# @name Usuario
+GET {{baseUrl}}/users/381ba0d2-f1e4-40de-a386-911523b53562
+Content-Type: application/json
+Authorization: Bearer {{authToken}} 
 
 ###
 
@@ -15,14 +22,14 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Pedro",
-  "instrument": "Violino",
-  "group": "GROUP_01",
+  "name": "João Victor",
+  "instrument": "Viola",
+  "group": "GROUP_03",
   "role": "STUDENT",
-  "email": "pedro@teste.com",
-  "phone": "123456789346",
+  "email": "joaovictor@teste.com",
+  "phone": "56151131355",
   "password": "123456",
-  "pratical_level": "C_OFICIAL"
+  "pratical_level": "C_JOVEM"
 }
 
 ###
@@ -39,15 +46,15 @@ Content-Type: application/json
 ###
 
 # @name AtualizarUsuario
-PUT {{baseUrl}}/users/e1f5f41e-c2d7-436c-a9f1-858555cde4f2
+PUT {{baseUrl}}/users/258c4d94-e6c7-4925-ab37-10b9c0118d43
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Pedro",
-  "instrument": "Violino",
+  "name": "Gabi",
+  "instrument": " Piano",
   "group": "GROUP_02",
-  "role": "STUDENT",
+  "role": "INSTRUCTOR",
   "practical_level": "C_OFICIAL"
 }
 
@@ -78,7 +85,7 @@ Authorization: Bearer {{authToken}}
   "category": "MSA",
   "observation": "Focar em escalas maiores",
   "delivery_date": "2024-08-15",
-  "group": "GROUP_02"
+  "studentId": "e1f5f41e-c2d7-436c-a9f1-858555cde4f2"
 }
 
 ###
@@ -165,7 +172,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "instrument": "Piano",
+  "instrument": "Viola",
   "meetings": [
     { "name": "N. LAOUREX Vol. 1 até pág. 35" },
     { "name": "CCB até pág. 46 (lição 113) + H. SITT Vol 1 até lição 6" },
@@ -188,8 +195,22 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-# @name ListarChamada
+# @name ListarHistorico
 GET {{baseUrl}}/attendance
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarChamada
+GET {{baseUrl}}/attendance/students
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarHistoricoDasAulasPorAluno
+GET {{baseUrl}}/attendance/student/e1f5f41e-c2d7-436c-a9f1-858555cde4f2
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -201,10 +222,10 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "date": "2024-11-15T00:00:00.000Z",
-  "studentId": "764cb886-ea2b-4f67-b10c-b4c9633ffed2",
-  "instructorId": "56398f61-7d35-4339-bead-28abc3fae9cc",
-  "status": "PRESENT"
+  "date": "2025-03-02T00:00:00.150Z",
+  "studentId": "f36ff46a-666b-4e8e-8eef-cfb1658c169e",
+  "instructorId": "381ba0d2-f1e4-40de-a386-911523b53562",
+  "status": "ABSENT"
 }
 
 ###
@@ -240,16 +261,17 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "group": "GROUP_01",
+  "group": "GROUP_02",
   "date": "2025-02-10T19:00:11.000Z",
   "subject": "Teoria Musical",
   "page": "12",
-  "exercise": "Exercício 3"
+  "exercise": "Exercício 3",
+  "classNumber": 4
 }
 
 ###
 
-# @name AtualizarChamada
+# @name AtualizarPlanoDeAulas
 PUT {{baseUrl}}/class-plan/860dd6a2-afa6-40e4-9f03-8959bf34a9b4
 Content-Type: application/json
 Authorization: Bearer {{authToken}}

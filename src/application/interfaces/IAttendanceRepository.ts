@@ -6,6 +6,7 @@ export interface IAttendanceRepository {
     studentId: string | null,
     instructorId: string,
     status: string,
+    classNumber: number | null,
   ): Promise<Attendance>
   updateAttendanceStatus(
     attendanceId: string,

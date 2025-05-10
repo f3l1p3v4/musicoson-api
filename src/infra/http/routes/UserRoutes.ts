@@ -14,12 +14,12 @@ routes.get(
   ensureInstructor,
   userController.list.bind(userController),
 )
-routes.post(
-  '/register',
+routes.get(
+  '/:id',
   ensureAuthenticated,
-  ensureInstructor,
-  userController.register.bind(userController),
+  userController.findById.bind(userController),
 )
+routes.post('/register', userController.register.bind(userController))
 routes.post('/login', userController.authenticate.bind(userController))
 routes.put(
   '/:id',

@@ -43,6 +43,16 @@ export class UserRepository implements IUserRepository {
     return this.mapPrismaUserToUser(prismaUser)
   }
 
+  async findById(id: string) {
+    const prismaUser = await prisma.user.findUnique({
+      where: { id },
+    })
+
+    if (!prismaUser) return null
+
+    return this.mapPrismaUserToUser(prismaUser)
+  }
+
   async update(id: string, data: Partial<User>): Promise<User> {
     const updatedUser = await prisma.user.update({
       where: { id },

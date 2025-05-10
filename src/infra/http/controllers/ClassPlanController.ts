@@ -16,7 +16,17 @@ export class ClassPlanController {
 
   async create(req: Request, res: Response) {
     const data: CreateClassPlanDTO = req.body
-    const classPlan = await this.createClassPlanUseCase.execute(data)
+    const instructorId = req.userId // 👈 Pegando o ID do instrutor autenticado
+
+    if (!instructorId) {
+      return res.status(403).json({ error: 'Acesso não autorizado' })
+    }
+
+    const classPlan = await this.createClassPlanUseCase.execute({
+      ...data,
+      instructor_id: instructorId, // 👈 Garantindo que o instructor_id seja passado
+    })
+
     return res.status(201).json(classPlan)
   }
 

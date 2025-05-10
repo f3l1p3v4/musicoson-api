@@ -13,6 +13,7 @@ export class CreateAttendanceUseCase {
       data.studentId, // studentId pode ser string ou null
       data.instructorId,
       data.status,
+      data.classNumber, // Adicionando o argumento classNumber
     )
   }
 }

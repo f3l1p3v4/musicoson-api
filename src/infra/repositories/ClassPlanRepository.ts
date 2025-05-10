@@ -7,15 +7,19 @@ import { Group } from '@prisma/client'
 
 export class ClassPlanRepository implements IClassPlanRepository {
   async create(data: CreateClassPlanDTO): Promise<ClassPlan> {
+    if (!data.instructor_id) {
+      throw new Error('Instructor ID is required')
+    }
+
     return prisma.classPlan.create({
       data: {
         group: data.group,
-        date: data.date,
+        date: new Date(data.date),
         subject: data.subject,
         page: data.page,
         exercise: data.exercise,
         instructor: {
-          connect: { id: data.instructor_id }, // Conectando ao instrutor existente
+          connect: { id: data.instructor_id },
         },
       },
     })

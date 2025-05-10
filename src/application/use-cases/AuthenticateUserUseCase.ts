@@ -14,7 +14,13 @@ export class AuthenticateUserUseCase {
   // eslint-disable-next-line no-useless-constructor
   constructor(private userRepository: IUserRepository) {}
 
-  async execute(data: AuthenticateUserDTO): Promise<string> {
+  async execute(data: AuthenticateUserDTO): Promise<{
+    token: string
+    role: UserRole
+    name: string
+    instrument?: string
+    id?: string
+  }> {
     const user = await this.userRepository.findByEmail(data.email)
 
     if (!user) {
@@ -40,7 +46,13 @@ export class AuthenticateUserUseCase {
       expiresIn: '8h',
     })
 
-    return token
+    return {
+      token,
+      role: user.role,
+      name: user.name,
+      instrument: user.instrument ?? undefined,
+      id: user.id ?? undefined,
+    }
   }
 }
 
