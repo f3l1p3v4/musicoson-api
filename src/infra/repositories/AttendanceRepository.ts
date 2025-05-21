@@ -9,6 +9,7 @@ import { User } from '../../domain/entities/User'
 
 export class AttendanceRepository implements IAttendanceRepository {
   private prisma = new PrismaClient()
+
   async createAttendance(
     date: Date,
     studentId: string | null,
@@ -51,24 +52,88 @@ export class AttendanceRepository implements IAttendanceRepository {
     })
   }
 
-  async findClassNumberForDate(date: Date): Promise<number> {
-    // Buscar todas as datas de aula ordenadas (sem repetir)
-    const distinctDates = await this.prisma.attendance.findMany({
-      distinct: ['date'], // Pegamos apenas datas únicas
-      orderBy: { date: 'asc' }, // Ordenamos da mais antiga para a mais recente
-      select: { date: true },
+  async upsertAttendanceStatusByDateAndStudent(
+    date: Date | string,
+    studentId: string,
+    instructorId: string,
+    status: AttendanceStatus,
+  ): Promise<Attendance> {
+    const validDate = new Date(date)
+    if (isNaN(validDate.getTime())) {
+      throw new Error('Data inválida')
+    }
+
+    const formattedDate = validDate.toISOString().split('T')[0] // 'YYYY-MM-DD'
+
+    // Tenta encontrar a presença existente do aluno para essa data
+    const existingAttendance = await this.prisma.attendance.findFirst({
+      where: {
+        studentId,
+        date: {
+          gte: new Date(`${formattedDate}T00:00:00.000Z`),
+          lte: new Date(`${formattedDate}T23:59:59.999Z`),
+        },
+      },
     })
 
-    // Se não existir nenhuma aula registrada ainda, começar do 1
-    if (distinctDates.length === 0) return 1
+    // Se já existe e o status é diferente → atualiza
+    if (existingAttendance) {
+      if (existingAttendance.status !== status) {
+        return this.prisma.attendance.update({
+          where: { id: existingAttendance.id },
+          data: { status },
+        })
+      } else {
+        // Se status já é o mesmo, retorna a presença sem atualizar
+        return existingAttendance
+      }
+    }
 
-    // Garantir que todas as datas são objetos Date antes de comparar
-    const classNumber =
-      distinctDates.findIndex(
-        (d) => new Date(d.date).toISOString() === new Date(date).toISOString(),
-      ) + 1
+    // Se não existe, cria nova presença (calculando classNumber)
+    const classNumber = await this.findClassNumberForDate(validDate)
 
-    return classNumber > 0 ? classNumber : distinctDates.length + 1
+    return this.prisma.attendance.create({
+      data: {
+        date: validDate,
+        studentId,
+        instructorId,
+        status,
+        classNumber,
+      },
+    })
+  }
+
+  async findClassNumberForDate(date: Date): Promise<number> {
+    const validDate = new Date(date)
+    const formattedDate = validDate.toISOString().split('T')[0] // Formata a data para 'YYYY-MM-DD'
+
+    // Primeiro verifica se já existe alguma presença com essa data
+    // (usando apenas a parte da data, ignorando hora)
+    const existingAttendance = await this.prisma.attendance.findFirst({
+      where: {
+        date: {
+          gte: new Date(`${formattedDate}T00:00:00.000Z`), // Começo do dia
+          lte: new Date(`${formattedDate}T23:59:59.999Z`), // Fim do dia
+        },
+      },
+      orderBy: { date: 'asc' },
+      select: { classNumber: true },
+    })
+
+    // Se já existe uma presença para essa data, use o mesmo classNumber
+    if (existingAttendance && existingAttendance.classNumber !== null) {
+      return existingAttendance.classNumber
+    }
+
+    // Se não existe, precisamos encontrar o próximo classNumber
+    // Buscar o maior classNumber atual
+    const lastAttendance = await this.prisma.attendance.findFirst({
+      orderBy: { classNumber: 'desc' },
+      select: { classNumber: true },
+    })
+
+    // Retorna o próximo número (ou 1 se não houver nenhum)
+    return (lastAttendance?.classNumber || 0) + 1
   }
 
   async findLastGlobalClassNumber(): Promise<number | null> {
@@ -93,33 +158,6 @@ export class AttendanceRepository implements IAttendanceRepository {
     if (!student || student.role !== 'STUDENT' || !student.group) {
       throw new Error('Aluno não encontrado ou sem grupo definido.')
     }
-
-    // Buscar as presenças do aluno (agora pegando classPlanId)
-    // const historyAttendances = await this.prisma.attendance.findMany({
-    //   where: { studentId: userId },
-    //   select: { classPlanId: true },
-    // })
-
-    console.log('USER:: ', student.id, student.group)
-
-    // return this.prisma.classPlan.findMany({
-    //   where: {
-    //     group: student.group,
-    //   },
-    //   orderBy: { date: 'asc' },
-    //   include: {
-    //     ClassPlanAttendance: {
-    //       where: {
-    //         studentId: student.id,
-    //       },
-    //       select: {
-    //         id: true,
-    //         status: true,
-    //         classNumber: true,
-    //       },
-    //     },
-    //   },
-    // })
 
     // 1. Busca todas as aulas (ClassPlan) daquele grupo
     const classPlans = await this.prisma.classPlan.findMany({
