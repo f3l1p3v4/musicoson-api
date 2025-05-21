@@ -119,3 +119,104 @@ MusicosOn.
 - [ ] Os dados da aplicação precisam estar persistidos em um banco PostgreSQL;
 - [ ] Todas listas de dados precisam estar paginadas com 20 itens por página;
 - [ ] O usuário deve ser identificado por um JWT (JSON Web Token);
+
+## Estrutura de diretórios (src)
+
+├── src
+    ├── @types
+    │   └── express.d.ts
+    ├── app.ts
+    ├── application
+    │   ├── dtos
+    │   │   ├── AuthenticateUserDTO.ts
+    │   │   ├── CreateAttendanceDTO.ts
+    │   │   ├── CreateClassPlanDTO.ts
+    │   │   ├── CreateNoticeDTO.ts
+    │   │   ├── CreateProgramMinimumDTO.ts
+    │   │   ├── CreateTaskDTO.ts
+    │   │   ├── RegisterUserDTO.ts
+    │   │   ├── UpdateAttendanceDTO.ts
+    │   │   ├── UpdateClassPlanDTO.ts
+    │   │   └── UpdateTaskStatusDTO.ts
+    │   ├── errors
+    │   │   └── DuplicateUserError.ts
+    │   ├── interfaces
+    │   │   ├── IAttendanceRepository.ts
+    │   │   ├── IClassPlanRepository.ts
+    │   │   ├── INoticeRepository.ts
+    │   │   ├── IProgramMinimumRepository.ts
+    │   │   ├── ITaskRepository.ts
+    │   │   └── IUserRepository.ts
+    │   ├── schemas
+    │   │   ├── CreateTaskSchema.ts
+    │   │   ├── UpdateTaskStatusSchema.ts
+    │   │   └── UserSchema.ts
+    │   └── use-cases
+    │   │   ├── AuthenticateUserUseCase.ts
+    │   │   ├── CreateAttendanceUseCase.ts
+    │   │   ├── CreateClassPlanUseCase.ts
+    │   │   ├── CreateNoticeUseCase.ts
+    │   │   ├── CreateProgramMinimumUseCase.ts
+    │   │   ├── CreateTaskUseCase.ts
+    │   │   ├── DeleteAttendanceUseCase.ts
+    │   │   ├── DeleteNoticeUseCase.ts
+    │   │   ├── DeleteProgramMinimumUseCase.ts
+    │   │   ├── DeleteTaskUseCase.ts
+    │   │   ├── DeleteUserUseCase.ts
+    │   │   ├── ListAttendancesUseCase.ts
+    │   │   ├── ListClassPlansUseCase.ts
+    │   │   ├── ListNoticesUseCase.ts
+    │   │   ├── ListProgramMinimumsUseCase.ts
+    │   │   ├── ListTasksUseCase.ts
+    │   │   ├── RegisterUserUseCase.ts
+    │   │   ├── UpdateAttendanceStatusUseCase.ts
+    │   │   ├── UpdateClassPlanUseCase.ts
+    │   │   ├── UpdateNoticeUseCase.ts
+    │   │   ├── UpdateProgramMinimumUseCase.ts
+    │   │   ├── UpdateTaskStatusUseCase.ts
+    │   │   └── UpdateUserUseCase.ts
+    ├── domain
+    │   └── entities
+    │   │   ├── Attendance.ts
+    │   │   ├── ClassPlan.ts
+    │   │   ├── Notice.ts
+    │   │   ├── ProgramMinimum.ts
+    │   │   ├── Task.ts
+    │   │   └── User.ts
+    ├── index.ts
+    ├── infra
+    │   ├── errors
+    │   │   ├── AppError.ts
+    │   │   ├── NotFoundError.ts
+    │   │   └── UnauthorizedError.ts
+    │   ├── http
+    │   │   ├── controllers
+    │   │   │   ├── AttendanceController.ts
+    │   │   │   ├── ClassPlanController.ts
+    │   │   │   ├── NoticeController.ts
+    │   │   │   ├── ProgramMinimumController.ts
+    │   │   │   ├── TaskController.ts
+    │   │   │   └── UserController.ts
+    │   │   ├── middlewares
+    │   │   │   └── auth.ts
+    │   │   └── routes
+    │   │   │   ├── ClassPlanRoutes.ts
+    │   │   │   ├── NoticeRoute.ts
+    │   │   │   ├── ProgramMinimumRoute.ts
+    │   │   │   ├── TaskRoutes.ts
+    │   │   │   ├── UserRoutes.ts
+    │   │   │   └── attendanceRoutes.ts
+    │   ├── orm
+    │   │   └── PrismaClient.ts
+    │   └── repositories
+    │   │   ├── AttendanceRepository.ts
+    │   │   ├── ClassPlanRepository.ts
+    │   │   ├── NoticeRepository.ts
+    │   │   ├── ProgramMinimumRepository.ts
+    │   │   ├── TaskRepository.ts
+    │   │   └── UserRepository.ts
+    ├── interfaces
+    │   └── controllers
+    │   │   └── UserController.ts
+    └── utils
+    │   └── formatZodErrors.ts
