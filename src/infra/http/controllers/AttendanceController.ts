@@ -8,83 +8,7 @@ class AttendanceController {
     this.attendanceRepository = attendanceRepository
   }
 
-  // async createAttendance(req: Request, res: Response): Promise<Response> {
-  //   const { date, studentId, instructorId, status } = req.body
-
-  //   try {
-  //     // Formatar a data para garantir consistência
-  //     const formattedDate = new Date(date)
-
-  //     if (isNaN(formattedDate.getTime())) {
-  //       return res.status(400).json({ message: 'Data inválida' })
-  //     }
-
-  //     // Buscar se já existe uma presença para esse aluno na mesma data
-  //     const existingAttendance =
-  //       await this.attendanceRepository.findAttendanceByDateAndStudent(
-  //         formattedDate,
-  //         studentId,
-  //       )
-
-  //     if (existingAttendance) {
-  //       // Extrai apenas a parte da data para comparação
-  //       const existingDate = existingAttendance.date.toISOString().split('T')[0]
-  //       const incomingDate = formattedDate.toISOString().split('T')[0]
-
-  //       if (
-  //         existingDate === incomingDate &&
-  //         existingAttendance.status === status
-  //       ) {
-  //         return res.status(200).json({
-  //           message: 'A presença já foi registrada!',
-  //           attendance: existingAttendance,
-  //         })
-  //       } else if (
-  //         existingDate === incomingDate &&
-  //         existingAttendance.status !== status
-  //       ) {
-  //         const updatedAttendance = await this.updateAttendance(
-  //           studentId,
-  //           status,
-  //         )
-
-  //         return res.status(201).json({
-  //           message: `Alterado status da presença para ${status}`,
-  //           updatedAttendance,
-  //         })
-  //       }
-  //     }
-
-  //     // Definir o classNumber correto baseado na data
-  //     const classNumber =
-  //       await this.attendanceRepository.findClassNumberForDate(formattedDate)
-
-  //     // Criar nova presença
-  //     const newAttendance = await this.attendanceRepository.createAttendance(
-  //       formattedDate,
-  //       studentId,
-  //       instructorId,
-  //       status,
-  //       classNumber,
-  //     )
-
-  //     return res.status(201).json({
-  //       message: `Registrando presença para aula #${classNumber} na data ${formattedDate.toISOString().split('T')[0]}`,
-  //       newAttendance,
-  //     })
-  //   } catch (error) {
-  //     const errorMessage =
-  //       error instanceof Error ? error.message : 'Erro desconhecido'
-  //     return res
-  //       .status(500)
-  //       .json({ message: 'Erro interno do servidor', error: errorMessage })
-  //   }
-  // }
-
-  // Método para listar todas as presenças
-
   async createAttendance(req: Request, res: Response): Promise<Response> {
-    // Pega o studentId do body, ou se não tiver, tenta pegar dos params
     const studentId = req.body.studentId || req.params.studentId
     const { date, instructorId, status } = req.body
 
@@ -117,15 +41,9 @@ class AttendanceController {
           existingDate === incomingDate &&
           existingAttendance.status !== status
         ) {
-          const updatedAttendance =
-            await this.attendanceRepository.updateAttendanceStatus(
-              studentId,
-              status,
-            )
-
-          return res.status(201).json({
-            message: `Alterado status da presença para ${status}`,
-            updatedAttendance,
+          return res.status(200).json({
+            message: 'A presença já foi registrada! com um status diferente',
+            attendance: existingAttendance,
           })
         }
       }
