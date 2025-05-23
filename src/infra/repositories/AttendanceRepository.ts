@@ -52,56 +52,56 @@ export class AttendanceRepository implements IAttendanceRepository {
     })
   }
 
-  async upsertAttendanceStatusByDateAndStudent(
-    date: Date | string,
-    studentId: string,
-    instructorId: string,
-    status: AttendanceStatus,
-  ): Promise<Attendance> {
-    const validDate = new Date(date)
-    if (isNaN(validDate.getTime())) {
-      throw new Error('Data inválida')
-    }
+  // async upsertAttendanceStatusByDateAndStudent(
+  //   date: Date | string,
+  //   studentId: string,
+  //   instructorId: string,
+  //   status: AttendanceStatus,
+  // ): Promise<Attendance> {
+  //   const validDate = new Date(date)
+  //   if (isNaN(validDate.getTime())) {
+  //     throw new Error('Data inválida')
+  //   }
 
-    const formattedDate = validDate.toISOString().split('T')[0] // 'YYYY-MM-DD'
+  //   const formattedDate = validDate.toISOString().split('T')[0] // 'YYYY-MM-DD'
 
-    // Tenta encontrar a presença existente do aluno para essa data
-    const existingAttendance = await this.prisma.attendance.findFirst({
-      where: {
-        studentId,
-        date: {
-          gte: new Date(`${formattedDate}T00:00:00.000Z`),
-          lte: new Date(`${formattedDate}T23:59:59.999Z`),
-        },
-      },
-    })
+  //   // Tenta encontrar a presença existente do aluno para essa data
+  //   const existingAttendance = await this.prisma.attendance.findFirst({
+  //     where: {
+  //       studentId,
+  //       date: {
+  //         gte: new Date(`${formattedDate}T00:00:00.000Z`),
+  //         lte: new Date(`${formattedDate}T23:59:59.999Z`),
+  //       },
+  //     },
+  //   })
 
-    // Se já existe e o status é diferente → atualiza
-    if (existingAttendance) {
-      if (existingAttendance.status !== status) {
-        return this.prisma.attendance.update({
-          where: { id: existingAttendance.id },
-          data: { status },
-        })
-      } else {
-        // Se status já é o mesmo, retorna a presença sem atualizar
-        return existingAttendance
-      }
-    }
+  //   // Se já existe e o status é diferente → atualiza
+  //   if (existingAttendance) {
+  //     if (existingAttendance.status !== status) {
+  //       return this.prisma.attendance.update({
+  //         where: { id: existingAttendance.id },
+  //         data: { status },
+  //       })
+  //     } else {
+  //       // Se status já é o mesmo, retorna a presença sem atualizar
+  //       return existingAttendance
+  //     }
+  //   }
 
-    // Se não existe, cria nova presença (calculando classNumber)
-    const classNumber = await this.findClassNumberForDate(validDate)
+  //   // Se não existe, cria nova presença (calculando classNumber)
+  //   const classNumber = await this.findClassNumberForDate(validDate)
 
-    return this.prisma.attendance.create({
-      data: {
-        date: validDate,
-        studentId,
-        instructorId,
-        status,
-        classNumber,
-      },
-    })
-  }
+  //   return this.prisma.attendance.create({
+  //     data: {
+  //       date: validDate,
+  //       studentId,
+  //       instructorId,
+  //       status,
+  //       classNumber,
+  //     },
+  //   })
+  // }
 
   async findClassNumberForDate(date: Date): Promise<number> {
     const validDate = new Date(date)

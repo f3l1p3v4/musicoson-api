@@ -77,7 +77,6 @@ class AttendanceController {
       const attendances = await this.attendanceRepository.getAllAttendances()
       return res.status(200).json(attendances)
     } catch (error) {
-      console.error('Erro ao listar presenças:', error)
       return res.status(500).json({ message: 'Erro interno do servidor' })
     }
   }
@@ -91,7 +90,6 @@ class AttendanceController {
         await this.attendanceRepository.getAllStudentsWithAttendance()
       return res.status(200).json(studentsWithAttendance)
     } catch (error) {
-      console.error('Erro ao buscar alunos com presenças:', error)
       return res.status(500).json({ message: 'Erro interno do servidor' })
     }
   }
@@ -117,12 +115,9 @@ class AttendanceController {
     }
   }
 
-  // Método para atualizar o status da presença
   async updateAttendance(req: Request, res: Response): Promise<Response> {
     const { id } = req.params
     const { status } = req.body
-
-    console.log('TESTE updateAttendance:: ', id, status)
 
     try {
       const attendance = await this.attendanceRepository.updateAttendanceStatus(
@@ -131,12 +126,10 @@ class AttendanceController {
       )
       return res.status(200).json(attendance)
     } catch (error) {
-      console.error('Erro ao atualizar presença:', error)
       return res.status(500).json({ message: 'Erro interno do servidor' })
     }
   }
 
-  // Método para remover uma presença
   async deleteAttendance(req: Request, res: Response): Promise<Response> {
     const { id } = req.params
 
