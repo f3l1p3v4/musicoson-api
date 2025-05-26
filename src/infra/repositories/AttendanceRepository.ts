@@ -209,7 +209,8 @@ export class AttendanceRepository implements IAttendanceRepository {
 
   async getAllStudentsWithAttendance(): Promise<User[]> {
     return this.prisma.user.findMany({
-      where: { role: 'STUDENT' }, // Filtra apenas alunos
+      where: { role: 'STUDENT' },
+      orderBy: { name: 'asc' },
       include: {
         studentAttendance: {
           select: {
@@ -218,7 +219,7 @@ export class AttendanceRepository implements IAttendanceRepository {
             status: true,
             classNumber: true,
           },
-          orderBy: { date: 'asc' }, // Ordena pelo dia da aula
+          orderBy: { date: 'asc' },
         },
       },
     })

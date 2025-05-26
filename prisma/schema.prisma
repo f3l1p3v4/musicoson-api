@@ -160,6 +160,7 @@ model ClassPlan {
   classPlanId String?
   semester    Semester?
   ano         Int?
+  method      String?
 
   instructorId String
   instructor   User   @relation(fields: [instructorId], references: [id])

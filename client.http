@@ -22,12 +22,12 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "João Victor",
-  "instrument": "Viola",
+  "name": "Davi",
+  "instrument": "Violino",
   "group": "GROUP_02",
   "role": "STUDENT",
-  "email": "joaovictor@teste.com",
-  "phone": "56151131355",
+  "email": "davi@teste.com",
+  "phone": "56151131322",
   "password": "123456",
   "pratical_level": "C_JOVEM"
 }
