@@ -159,6 +159,7 @@ model ClassPlan {
   classNumber Int?
   classPlanId String?
   semester    Semester?
+  ano         Int?
 
   instructorId String
   instructor   User   @relation(fields: [instructorId], references: [id])
