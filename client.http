@@ -24,7 +24,7 @@ Authorization: Bearer {{authToken}}
 {
   "name": "João Victor",
   "instrument": "Viola",
-  "group": "GROUP_03",
+  "group": "GROUP_02",
   "role": "STUDENT",
   "email": "joaovictor@teste.com",
   "phone": "56151131355",
@@ -266,7 +266,9 @@ Authorization: Bearer {{authToken}}
   "subject": "Teoria Musical",
   "page": "12",
   "exercise": "Exercício 3",
-  "classNumber": 4
+  "classNumber": 4,
+  "sementer": "S1",
+  "ano": 2025,
 }
 
 ###
