@@ -263,7 +263,7 @@ export class AttendanceRepository implements IAttendanceRepository {
   }
 
   // Método para deletar uma presença
-  async deleteAttendance(attendanceId: string): Promise<void> {
+    async deleteAttendance(attendanceId: string): Promise<void> {
     await this.prisma.attendance.delete({
       where: { id: attendanceId },
     })

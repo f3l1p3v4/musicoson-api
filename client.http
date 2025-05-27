@@ -267,8 +267,9 @@ Authorization: Bearer {{authToken}}
   "page": "12",
   "exercise": "Exercício 3",
   "classNumber": 4,
-  "sementer": "S1",
+  "semester": "S1",
   "ano": 2025,
+  "method": "teórica"
 }
 
 ###

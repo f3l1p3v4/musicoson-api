@@ -18,6 +18,10 @@ export class ClassPlanRepository implements IClassPlanRepository {
         subject: data.subject,
         page: data.page,
         exercise: data.exercise,
+        classNumber: data.classNumber,
+        semester: data.semester,
+        ano: data.ano,
+        method: data.method,
         instructor: {
           connect: { id: data.instructor_id },
         },

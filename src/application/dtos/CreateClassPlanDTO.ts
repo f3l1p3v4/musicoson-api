@@ -1,4 +1,4 @@
-import { Group } from '@prisma/client'
+import { Group, Semester } from '@prisma/client'
 
 export interface CreateClassPlanDTO {
   group: Group
@@ -7,4 +7,8 @@ export interface CreateClassPlanDTO {
   page: string
   exercise: string
   instructor_id?: string
+  classNumber?: number
+  semester?: Semester
+  ano?: number
+  method?: string
 }
