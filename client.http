@@ -46,16 +46,18 @@ Content-Type: application/json
 ###
 
 # @name AtualizarUsuario
-PUT {{baseUrl}}/users/258c4d94-e6c7-4925-ab37-10b9c0118d43
+PUT {{baseUrl}}/users/12ec045f-1016-4fb2-b67d-77e07a9b9323
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "name": "Gabi",
-  "instrument": " Piano",
-  "group": "GROUP_02",
-  "role": "INSTRUCTOR",
-  "practical_level": "C_OFICIAL"
+  "name": "teste",
+  "instrument": "teste",
+  "group": "GROUP_01",
+  "role": "STUDENT",
+  "email": "teste@teste.com",
+  "phone": "123456766",
+  "pratical_level": "C_JOVEM",
 }
 
 ###

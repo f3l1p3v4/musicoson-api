@@ -26,8 +26,6 @@ export class UserRepository implements IUserRepository {
         instrument: user.instrument,
         group: user.group,
         practical_level: user.practical_level,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
       },
     })
     return this.mapPrismaUserToUser(savedUser)

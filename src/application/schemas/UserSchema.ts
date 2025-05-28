@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const UserSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   email: z.string().email('Invalid email address'),
-  phone: z.string().regex(/^\d{10,15}$/, 'Invalid phone number'),
+  phone: z.string().regex(/^\d{9}$/, 'Invalid phone number'),
   password: z.string().min(6, 'Password must be at least 6 characters long'),
   role: z
     .enum(['INSTRUCTOR', 'STUDENT'])
