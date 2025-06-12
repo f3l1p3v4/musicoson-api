@@ -1,3 +1,5 @@
+import { Group } from '@prisma/client'
+
 export interface ClassPlan {
   id: string
   group: Group
