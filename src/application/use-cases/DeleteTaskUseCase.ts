@@ -1,5 +1,5 @@
-import { TaskRepository } from '@/infra/repositories/TaskRepository'
-import { NotFoundError } from '@/infra/errors/NotFoundError'
+import { TaskRepository } from '../../infra/repositories/TaskRepository'
+import { NotFoundError } from '../../infra/errors/NotFoundError'
 
 export class DeleteTaskUseCase {
   // eslint-disable-next-line no-useless-constructor

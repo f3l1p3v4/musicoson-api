@@ -1,6 +1,6 @@
-import { INoticeRepository } from '@/application/interfaces/INoticeRepository'
+import { INoticeRepository } from '../../application/interfaces/INoticeRepository'
 import { Notice } from '@prisma/client'
-import { CreateNoticeDTO } from '@/application/dtos/CreateNoticeDTO'
+import { CreateNoticeDTO } from '../../application/dtos/CreateNoticeDTO'
 
 export class CreateNoticeUseCase {
   // eslint-disable-next-line no-useless-constructor

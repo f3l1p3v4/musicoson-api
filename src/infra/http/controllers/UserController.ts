@@ -1,12 +1,12 @@
 import { Request, Response } from 'express'
-import { RegisterUserUseCase } from '@/application/use-cases/RegisterUserUseCase'
-import { AuthenticateUserUseCase } from '@/application/use-cases/AuthenticateUserUseCase'
-import { UpdateUserUseCase } from '@/application/use-cases/UpdateUserUseCase'
-import { DeleteUserUseCase } from '@/application/use-cases/DeleteUserUseCase'
-import { UserRepository } from '@/infra/repositories/UserRepository'
-import { UserSchema } from '@/application/schemas/UserSchema'
+import { RegisterUserUseCase } from '../../../application/use-cases/RegisterUserUseCase'
+import { AuthenticateUserUseCase } from '../../../application/use-cases/AuthenticateUserUseCase'
+import { UpdateUserUseCase } from '../../../application/use-cases/UpdateUserUseCase'
+import { DeleteUserUseCase } from '../../../application/use-cases/DeleteUserUseCase'
+import { UserRepository } from '../../.../../../infra/repositories/UserRepository'
+import { UserSchema } from '../../../application/schemas/UserSchema'
 import { z } from 'zod'
-import { formatZodErrors } from '@/utils/formatZodErrors'
+import { formatZodErrors } from '../../../utils/formatZodErrors'
 
 export class UserController {
   private registerUserUseCase: RegisterUserUseCase

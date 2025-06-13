@@ -1,5 +1,5 @@
 import { Notice } from '@prisma/client'
-import { CreateNoticeDTO } from '@/application/dtos/CreateNoticeDTO'
+import { CreateNoticeDTO } from '../../application/dtos/CreateNoticeDTO'
 
 export interface INoticeRepository {
   create(data: CreateNoticeDTO, instructorId: string): Promise<Notice>

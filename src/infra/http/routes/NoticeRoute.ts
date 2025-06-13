@@ -3,7 +3,7 @@ import NoticeController from '../controllers/NoticeController'
 import {
   ensureAuthenticated,
   ensureInstructor,
-} from '@/infra/http/middlewares/auth'
+} from '../../../infra/http/middlewares/auth'
 
 const router = Router()
 

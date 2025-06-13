@@ -1,4 +1,4 @@
-import { IProgramMinimumRepository } from '@/application/interfaces/IProgramMinimumRepository'
+import { IProgramMinimumRepository } from '../../application/interfaces/IProgramMinimumRepository'
 import { ProgramMinimum } from '@prisma/client'
 
 export class ListProgramMinimumsUseCase {

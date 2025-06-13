@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { RegisterUserUseCase } from '@/application/use-cases/RegisterUserUseCase'
-import { AuthenticateUserUseCase } from '@/application/use-cases/AuthenticateUserUseCase'
-import { UserRepository } from '@/infra/repositories/UserRepository'
+import { RegisterUserUseCase } from '../../application/use-cases/RegisterUserUseCase'
+import { AuthenticateUserUseCase } from '../../application/use-cases/AuthenticateUserUseCase'
+import { UserRepository } from '../.../../../infra/repositories/UserRepository'
 
 export class UserController {
   async register(req: Request, res: Response): Promise<Response> {

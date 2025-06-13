@@ -3,7 +3,7 @@ import { UserController } from '../controllers/UserController'
 import {
   ensureAuthenticated,
   ensureInstructor,
-} from '@/infra/http/middlewares/auth'
+} from '../../../infra/http/middlewares/auth'
 
 const routes = Router()
 const userController = new UserController()

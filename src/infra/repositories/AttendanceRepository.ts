@@ -4,7 +4,7 @@ import {
   AttendanceStatus,
   ClassPlan,
 } from '@prisma/client'
-import { IAttendanceRepository } from '@/application/interfaces/IAttendanceRepository'
+import { IAttendanceRepository } from '../../../application/interfaces/IAttendanceRepository'
 import { User } from '../../domain/entities/User'
 
 export class AttendanceRepository implements IAttendanceRepository {

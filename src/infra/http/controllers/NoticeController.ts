@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import { CreateNoticeUseCase } from '@/application/use-cases/CreateNoticeUseCase'
-import { ListNoticesUseCase } from '@/application/use-cases/ListNoticesUseCase'
-import { UpdateNoticeUseCase } from '@/application/use-cases/UpdateNoticeUseCase'
-import { DeleteNoticeUseCase } from '@/application/use-cases/DeleteNoticeUseCase'
-import { NoticeRepository } from '@/infra/repositories/NoticeRepository'
-import { CreateNoticeDTO } from '@/application/dtos/CreateNoticeDTO'
+import { CreateNoticeUseCase } from '../../../application/use-cases/CreateNoticeUseCase'
+import { ListNoticesUseCase } from '../../../application/use-cases/ListNoticesUseCase'
+import { UpdateNoticeUseCase } from '../../../application/use-cases/UpdateNoticeUseCase'
+import { DeleteNoticeUseCase } from '../../../application/use-cases/DeleteNoticeUseCase'
+import { NoticeRepository } from '../../../infra/repositories/NoticeRepository'
+import { CreateNoticeDTO } from '../../../application/dtos/CreateNoticeDTO'
 
 const noticeRepository = new NoticeRepository()
 

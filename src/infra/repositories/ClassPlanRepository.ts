@@ -1,8 +1,8 @@
-import { prisma } from '@/infra/orm/PrismaClient'
-import { IClassPlanRepository } from '@/application/interfaces/IClassPlanRepository'
-import { ClassPlan } from '@/domain/entities/ClassPlan'
-import { CreateClassPlanDTO } from '@/application/dtos/CreateClassPlanDTO'
-import { UpdateClassPlanDTO } from '@/application/dtos/UpdateClassPlanDTO'
+import { prisma } from '../../infra/orm/PrismaClient'
+import { IClassPlanRepository } from '../../application/interfaces/IClassPlanRepository'
+import { ClassPlan } from '../../domain/entities/ClassPlan'
+import { CreateClassPlanDTO } from '../../application/dtos/CreateClassPlanDTO'
+import { UpdateClassPlanDTO } from '../../application/dtos/UpdateClassPlanDTO'
 import { Group } from '@prisma/client'
 
 export class ClassPlanRepository implements IClassPlanRepository {

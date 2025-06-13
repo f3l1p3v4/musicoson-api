@@ -1,7 +1,7 @@
-import { prisma } from '@/infra/orm/PrismaClient'
+import { prisma } from '../../infra/orm/PrismaClient'
 import { Notice } from '@prisma/client'
-import { INoticeRepository } from '@/application/interfaces/INoticeRepository'
-import { CreateNoticeDTO } from '@/application/dtos/CreateNoticeDTO'
+import { INoticeRepository } from '../../application/interfaces/INoticeRepository'
+import { CreateNoticeDTO } from '../../application/dtos/CreateNoticeDTO'
 
 export class NoticeRepository implements INoticeRepository {
   async create(data: CreateNoticeDTO, instructorId: string): Promise<Notice> {

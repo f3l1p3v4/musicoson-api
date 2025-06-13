@@ -1,4 +1,4 @@
-import { ITaskRepository } from '@/application/interfaces/ITaskRepository'
+import { ITaskRepository } from '../../application/interfaces/ITaskRepository'
 import { Task } from '@prisma/client'
 
 interface ListTasksParams {

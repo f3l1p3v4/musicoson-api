@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { AttendanceRepository } from '@/infra/repositories/AttendanceRepository'
+import { AttendanceRepository } from '../../../infra/repositories/AttendanceRepository'
 
 class AttendanceController {
   private attendanceRepository: AttendanceRepository

@@ -1,6 +1,6 @@
-import { TaskRepository } from '@/infra/repositories/TaskRepository'
-import { CreateTaskDTO } from '@/application/dtos/CreateTaskDTO'
-import { AppError } from '@/infra/errors/AppError'
+import { TaskRepository } from '../../infra/repositories/TaskRepository'
+import { CreateTaskDTO } from '../../application/dtos/CreateTaskDTO'
+import { AppError } from '../../infra/errors/AppError'
 
 export class CreateTaskUseCase {
   // eslint-disable-next-line no-useless-constructor

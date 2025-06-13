@@ -1,4 +1,4 @@
-import { IProgramMinimumRepository } from '@/application/interfaces/IProgramMinimumRepository'
+import { IProgramMinimumRepository } from '../../application/interfaces/IProgramMinimumRepository'
 
 export class DeleteProgramMinimumUseCase {
   // eslint-disable-next-line no-useless-constructor

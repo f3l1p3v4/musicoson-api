@@ -3,7 +3,7 @@ import ProgramMinimumController from '../controllers/ProgramMinimumController'
 import {
   ensureAuthenticated,
   ensureInstructor,
-} from '@/infra/http/middlewares/auth'
+} from '../../../infra/http/middlewares/auth'
 
 const router = Router()
 

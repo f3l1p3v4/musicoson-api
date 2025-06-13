@@ -1,6 +1,6 @@
-import { IClassPlanRepository } from '@/application/interfaces/IClassPlanRepository'
-import { ClassPlan } from '@/domain/entities/ClassPlan'
-import { CreateClassPlanDTO } from '@/application/dtos/CreateClassPlanDTO'
+import { IClassPlanRepository } from '../../application/interfaces/IClassPlanRepository'
+import { ClassPlan } from './domain/entities/ClassPlan'
+import { CreateClassPlanDTO } from '../../application/dtos/CreateClassPlanDTO'
 
 export class CreateClassPlanUseCase {
   // eslint-disable-next-line no-useless-constructor

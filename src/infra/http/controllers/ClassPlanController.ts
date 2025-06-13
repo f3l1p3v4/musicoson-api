@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
-import { CreateClassPlanUseCase } from '@/application/use-cases/CreateClassPlanUseCase'
-import { ListClassPlansUseCase } from '@/application/use-cases/ListClassPlansUseCase'
-import { UpdateClassPlanUseCase } from '@/application/use-cases/UpdateClassPlanUseCase'
-import { CreateClassPlanDTO } from '@/application/dtos/CreateClassPlanDTO'
-import { UpdateClassPlanDTO } from '@/application/dtos/UpdateClassPlanDTO'
+import { CreateClassPlanUseCase } from '../../../application/use-cases/CreateClassPlanUseCase'
+import { ListClassPlansUseCase } from '../../../application/use-cases/ListClassPlansUseCase'
+import { UpdateClassPlanUseCase } from '../../../application/use-cases/UpdateClassPlanUseCase'
+import { CreateClassPlanDTO } from '../../../application/dtos/CreateClassPlanDTO'
+import { UpdateClassPlanDTO } from '../../../application/dtos/UpdateClassPlanDTO'
 import { Group } from '@prisma/client'
 
 export class ClassPlanController {

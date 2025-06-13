@@ -1,5 +1,5 @@
 import { IUserRepository } from '../interfaces/IUserRepository'
-import { AuthenticateUserDTO } from '@/application/dtos/AuthenticateUserDTO'
+import { AuthenticateUserDTO } from '../../application/dtos/AuthenticateUserDTO'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { UserRole } from '@prisma/client'

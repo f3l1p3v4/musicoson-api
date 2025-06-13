@@ -1,5 +1,5 @@
 import { Task } from '@prisma/client'
-import { CreateTaskDTO } from '@/application/dtos/CreateTaskDTO'
+import { CreateTaskDTO } from '../../application/dtos/CreateTaskDTO'
 
 export interface ITaskRepository {
   create(data: CreateTaskDTO, instructorId: string): Promise<Task>

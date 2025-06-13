@@ -1,7 +1,7 @@
-import { prisma } from '@/infra/orm/PrismaClient'
+import { prisma } from '../../infra/orm/PrismaClient'
 import { ProgramMinimum } from '@prisma/client'
-import { IProgramMinimumRepository } from '@/application/interfaces/IProgramMinimumRepository'
-import { CreateProgramMinimumDTO } from '@/application/dtos/CreateProgramMinimumDTO'
+import { IProgramMinimumRepository } from '../../application/interfaces/IProgramMinimumRepository'
+import { CreateProgramMinimumDTO } from '../../application/dtos/CreateProgramMinimumDTO'
 
 export class ProgramMinimumRepository implements IProgramMinimumRepository {
   async create(

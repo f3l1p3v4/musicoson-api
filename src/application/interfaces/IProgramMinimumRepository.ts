@@ -1,5 +1,5 @@
 import { ProgramMinimum } from '@prisma/client'
-import { CreateProgramMinimumDTO } from '@/application/dtos/CreateProgramMinimumDTO'
+import { CreateProgramMinimumDTO } from '../../application/dtos/CreateProgramMinimumDTO'
 
 export interface IProgramMinimumRepository {
   create(
