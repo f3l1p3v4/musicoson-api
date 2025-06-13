@@ -1,27 +1,51 @@
-# Etapa 1: build
-FROM node:20 AS build
+# Etapa 1: Build
+FROM node:20-alpine AS build
+
 WORKDIR /app
+
+# Copiar arquivos de dependências primeiro (para cache de layers)
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Instalar dependências
+RUN npm ci
+
+# Copiar código fonte
 COPY . .
-RUN npm install
+
+# Gerar cliente Prisma
+RUN npx prisma generate
+
+# Build da aplicação
 RUN npm run build
 
-# Etapa 2: produção
-FROM node:20
-WORKDIR /app
-COPY --from=build /app ./
-RUN npm install --omit=dev
-ENV NODE_ENV=production
-EXPOSE 3333
-CMD ["node", "dist/index.js"]FROM node:20
+# Etapa 2: Produção
+FROM node:20-alpine AS production
 
 WORKDIR /app
 
+# Copiar arquivos de dependências
 COPY package*.json ./
+COPY prisma ./prisma/
 
-RUN npm install
+# Instalar apenas dependências de produção
+RUN npm ci --omit=dev
 
-COPY . .
+# Gerar cliente Prisma para produção
+RUN npx prisma generate
 
-EXPOSE 3000
+# Copiar arquivos buildados da etapa anterior
+COPY --from=build /app/dist ./dist
 
-CMD ["npm", "run", "start"]
+# Criar usuário não-root para segurança
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nodejs -u 1001
+
+# Dar permissões corretas
+USER nodejs
+
+# Expor porta
+EXPOSE 3333
+
+# Comando para iniciar a aplicação
+CMD ["node", "dist/index.js"]

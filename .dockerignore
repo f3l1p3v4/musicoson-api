@@ -1,4 +1,12 @@
 node_modules
-build
+npm-debug.log
+.git
+.gitignore
+README.md
 .env
-docker-compose.yml
+.nyc_output
+coverage
+.envrc
+dist
+.DS_Store
+*.log
