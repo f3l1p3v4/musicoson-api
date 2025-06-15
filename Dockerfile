@@ -3,7 +3,10 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
-# Copiar arquivos de dependências primeiro (para cache de layers)
+# Instala netcat para verificação de porta
+RUN apk add --no-cache netcat-openbsd
+
+# Copiar arquivos de dependências primeiro
 COPY package*.json ./
 COPY prisma ./prisma/
 
@@ -20,32 +23,23 @@ RUN npx prisma generate
 RUN npm run build
 
 # Etapa 2: Produção
-FROM node:20-alpine AS production
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copiar arquivos de dependências
-COPY package*.json ./
-COPY prisma ./prisma/
-
-# Instalar apenas dependências de produção
-RUN npm ci --omit=dev
-
-# Gerar cliente Prisma para produção
-RUN npx prisma generate
-
-# Copiar arquivos buildados da etapa anterior
+# Copiar apenas o necessário
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/dist ./dist
 
-# Criar usuário não-root para segurança
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S nodejs -u 1001
+# Usuário não-root
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /app
 
-# Dar permissões corretas
 USER nodejs
 
-# Expor porta
 EXPOSE 3333
 
-# Comando para iniciar a aplicação
 CMD ["node", "dist/index.js"]

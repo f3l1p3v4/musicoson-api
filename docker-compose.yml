@@ -2,39 +2,43 @@ version: '3.8'
 
 services:
   postgres:
+    image: postgres:15-alpine
     container_name: musicoson-pg
-    image: bitnami/postgresql:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: musicoson
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRESQL_USERNAME=postgres
-      - POSTGRESQL_PASSWORD=${DB_PASSWORD:-senha-segura}
-      - POSTGRESQL_DATABASE=musicoson
-    volumes:
-      - postgres_data:/bitnami/postgresql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d musicoson"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 20
     restart: unless-stopped
 
   backend:
-    container_name: musicoson-api
     build: .
+    container_name: musicoson-api
     ports:
       - "3333:3333"
     environment:
       - NODE_ENV=production
       - PORT=3333
-      - JWT_SECRET=${JWT_SECRET}
-      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=musicosonseguro
+      - DATABASE_URL=postgresql://postgres:docker@postgres:5432/musicoson?schema=public
     depends_on:
       postgres:
         condition: service_healthy
     restart: unless-stopped
     command: >
       sh -c "
+        while ! nc -z postgres 5432; do
+          echo 'Waiting for PostgreSQL...';
+          sleep 2;
+        done;
         npx prisma migrate deploy &&
         node dist/index.js
       "
