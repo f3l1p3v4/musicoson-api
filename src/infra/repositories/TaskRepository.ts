@@ -1,6 +1,6 @@
 import { PrismaClient, Task, Group } from '@prisma/client'
-import { CreateTaskDTO } from '../../../application/dtos/CreateTaskDTO'
-import { ITaskRepository } from '../../../application/interfaces/ITaskRepository'
+import { CreateTaskDTO } from '../../application/dtos/CreateTaskDTO'
+import { ITaskRepository } from '../../application/interfaces/ITaskRepository'
 
 export class TaskRepository implements ITaskRepository {
   private prisma = new PrismaClient()

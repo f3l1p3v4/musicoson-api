@@ -1,5 +1,5 @@
 import { IClassPlanRepository } from '../../application/interfaces/IClassPlanRepository'
-import { ClassPlan } from './domain/entities/ClassPlan'
+import { ClassPlan } from '../../domain/entities/ClassPlan'
 import { UpdateClassPlanDTO } from '../../application/dtos/UpdateClassPlanDTO'
 
 export class UpdateClassPlanUseCase {

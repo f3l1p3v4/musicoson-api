@@ -4,7 +4,7 @@ import {
   AttendanceStatus,
   ClassPlan,
 } from '@prisma/client'
-import { IAttendanceRepository } from '../../../application/interfaces/IAttendanceRepository'
+import { IAttendanceRepository } from '../../application/interfaces/IAttendanceRepository'
 import { User } from '../../domain/entities/User'
 
 export class AttendanceRepository implements IAttendanceRepository {
@@ -263,7 +263,7 @@ export class AttendanceRepository implements IAttendanceRepository {
   }
 
   // Método para deletar uma presença
-    async deleteAttendance(attendanceId: string): Promise<void> {
+  async deleteAttendance(attendanceId: string): Promise<void> {
     await this.prisma.attendance.delete({
       where: { id: attendanceId },
     })

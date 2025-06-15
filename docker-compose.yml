@@ -3,12 +3,12 @@ version: '3.8'
 services:
   postgres:
     container_name: musicoson-pg
-    image: bitnami/postgresql:latest
+    image: bitnami/postgresql:15
     ports:
       - "5432:5432"
     environment:
       - POSTGRESQL_USERNAME=postgres
-      - POSTGRESQL_PASSWORD=docker
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD:-senha-segura}
       - POSTGRESQL_DATABASE=musicoson
     volumes:
       - postgres_data:/bitnami/postgresql
@@ -17,24 +17,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   backend:
     container_name: musicoson-api
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
       - "3333:3333"
     environment:
       - NODE_ENV=production
       - PORT=3333
-      - JWT_SECRET=musicosonseguro
-      - DATABASE_URL=postgresql://postgres:docker@postgres:5432/musicoson?schema=public
+      - JWT_SECRET=${JWT_SECRET}
+      - DATABASE_URL=${DATABASE_URL}
     depends_on:
       postgres:
         condition: service_healthy
     restart: unless-stopped
-    # Script para aguardar o banco e executar migrations
     command: >
       sh -c "
         npx prisma migrate deploy &&
