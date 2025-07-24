@@ -52,88 +52,64 @@ export class AttendanceRepository implements IAttendanceRepository {
     })
   }
 
-  // async upsertAttendanceStatusByDateAndStudent(
-  //   date: Date | string,
-  //   studentId: string,
-  //   instructorId: string,
-  //   status: AttendanceStatus,
-  // ): Promise<Attendance> {
-  //   const validDate = new Date(date)
-  //   if (isNaN(validDate.getTime())) {
-  //     throw new Error('Data inválida')
-  //   }
-
-  //   const formattedDate = validDate.toISOString().split('T')[0] // 'YYYY-MM-DD'
-
-  //   // Tenta encontrar a presença existente do aluno para essa data
-  //   const existingAttendance = await this.prisma.attendance.findFirst({
-  //     where: {
-  //       studentId,
-  //       date: {
-  //         gte: new Date(`${formattedDate}T00:00:00.000Z`),
-  //         lte: new Date(`${formattedDate}T23:59:59.999Z`),
-  //       },
-  //     },
-  //   })
-
-  //   // Se já existe e o status é diferente → atualiza
-  //   if (existingAttendance) {
-  //     if (existingAttendance.status !== status) {
-  //       return this.prisma.attendance.update({
-  //         where: { id: existingAttendance.id },
-  //         data: { status },
-  //       })
-  //     } else {
-  //       // Se status já é o mesmo, retorna a presença sem atualizar
-  //       return existingAttendance
-  //     }
-  //   }
-
-  //   // Se não existe, cria nova presença (calculando classNumber)
-  //   const classNumber = await this.findClassNumberForDate(validDate)
-
-  //   return this.prisma.attendance.create({
-  //     data: {
-  //       date: validDate,
-  //       studentId,
-  //       instructorId,
-  //       status,
-  //       classNumber,
-  //     },
-  //   })
-  // }
-
   async findClassNumberForDate(date: Date): Promise<number> {
     const validDate = new Date(date)
-    const formattedDate = validDate.toISOString().split('T')[0] // Formata a data para 'YYYY-MM-DD'
+    const formattedDate = validDate.toISOString().split('T')[0]
 
-    // Primeiro verifica se já existe alguma presença com essa data
-    // (usando apenas a parte da data, ignorando hora)
+    // Verifica se já existe presença nesta data
     const existingAttendance = await this.prisma.attendance.findFirst({
       where: {
         date: {
-          gte: new Date(`${formattedDate}T00:00:00.000Z`), // Começo do dia
-          lte: new Date(`${formattedDate}T23:59:59.999Z`), // Fim do dia
+          gte: new Date(`${formattedDate}T00:00:00.000Z`),
+          lte: new Date(`${formattedDate}T23:59:59.999Z`),
         },
       },
       orderBy: { date: 'asc' },
       select: { classNumber: true },
     })
 
-    // Se já existe uma presença para essa data, use o mesmo classNumber
     if (existingAttendance && existingAttendance.classNumber !== null) {
       return existingAttendance.classNumber
     }
 
-    // Se não existe, precisamos encontrar o próximo classNumber
-    // Buscar o maior classNumber atual
-    const lastAttendance = await this.prisma.attendance.findFirst({
-      orderBy: { classNumber: 'desc' },
-      select: { classNumber: true },
+    // Busca o último registro de presença
+    const lastAttendanceWithDate = await this.prisma.attendance.findFirst({
+      orderBy: { date: 'desc' },
+      select: { date: true, classNumber: true },
     })
 
-    // Retorna o próximo número (ou 1 se não houver nenhum)
-    return (lastAttendance?.classNumber || 0) + 1
+    // Se não há registros anteriores, começa com 1
+    if (!lastAttendanceWithDate) {
+      return 1
+    }
+
+    const lastDate = new Date(lastAttendanceWithDate.date)
+    const currentYear = validDate.getFullYear()
+    const lastYear = lastDate.getFullYear()
+    const currentMonth = validDate.getMonth() // 0-11 (janeiro=0)
+    const lastMonth = lastDate.getMonth()
+
+    // Verifica se estamos em um novo semestre
+    const isNewSemester =
+      // Novo ano
+      currentYear > lastYear ||
+      // Mesmo ano, mas último registro foi no primeiro semestre e agora estamos no segundo
+      (currentYear === lastYear && lastMonth < 6 && currentMonth >= 6) ||
+      // Primeiro registro do segundo semestre (último foi em junho do mesmo ano)
+      (currentYear === lastYear && lastMonth === 5 && currentMonth === 6)
+
+    console.log('Current date:', validDate)
+    console.log('Last attendance date:', lastDate)
+    console.log('Current year/month:', currentYear, currentMonth)
+    console.log('Last year/month:', lastYear, lastMonth)
+    console.log('isNewSemester:', isNewSemester)
+
+    if (isNewSemester) {
+      return 1
+    }
+
+    // Se não for um novo semestre, incrementa o último classNumber
+    return (lastAttendanceWithDate.classNumber || 0) + 1
   }
 
   async findLastGlobalClassNumber(): Promise<number | null> {
