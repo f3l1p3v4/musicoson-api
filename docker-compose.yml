@@ -5,15 +5,15 @@ services:
     image: postgres:15-alpine
     container_name: musicoson-pg
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: musicoson
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-docker}
+      POSTGRES_DB: ${DB_NAME:-musicoson}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d musicoson"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-musicoson}"]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -23,12 +23,12 @@ services:
     build: .
     container_name: musicoson-api
     ports:
-      - "3333:3333"
+     - "${APP_PORT:-3333}:3333"
     environment:
       - NODE_ENV=production
       - PORT=3333
-      - JWT_SECRET=musicosonseguro
-      - DATABASE_URL=postgresql://postgres:docker@postgres:5432/musicoson?schema=public
+      - JWT_SECRET=${JWT_SECRET}
+      - DATABASE_URL=postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-docker}@postgres:5432/${DB_NAME:-musicoson}?schema=public
     depends_on:
       postgres:
         condition: service_healthy
