@@ -16,6 +16,7 @@ app.use(
       'http://localhost:5173',
       'http://127.0.0.1:5173',
       'https://musicoson.creathor.com.br',
+      'https://musicoson.teste.com.br',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
