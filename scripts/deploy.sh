@@ -15,7 +15,7 @@ docker compose run --rm musicoson-api npx prisma migrate deploy
 # Inicia os containers em background
 docker compose up -d
 
-# Limpa imagens antigas (opcional)
+# Limpa imagens antigas (opcional) - teste
 docker image prune -f
 
 echo "Deploy concluído em $(date)" >> /home/musicoson-api/deploy.log
