@@ -8,7 +8,7 @@ cd /home/musicoson-api
 docker compose down || true
 docker compose build --no-cache
 
-# 2. Sobe APENAS o banco de dados e aguarda.
+# 2. Sobe APENAS o banco de dados e aguarda. teste
 # O '-d' sobe o serviço em background.
 echo "Garantindo que o banco de dados esteja online..."
 docker compose up -d postgres
