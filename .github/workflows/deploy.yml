@@ -8,7 +8,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Opcional: Build local para verificar erros antes do deploy
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -25,6 +24,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/musicoson-api
+            # Solução para o erro de sobrescrita (git pull)
+            git reset --hard
+            git clean -fd
             git pull origin main
-            chmod +x ./scripts/deploy.sh  # Assegura permissões
+            chmod +x ./scripts/deploy.sh
             ./scripts/deploy.sh

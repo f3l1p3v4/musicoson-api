@@ -8,24 +8,24 @@ cd /home/musicoson-api
 docker compose down || true
 docker compose build --no-cache
 
-# 2. Sobe APENAS o banco de dados e aguarda. teste
-# O '-d' sobe o serviço em background.
+# 2. Sobe APENAS o banco de dados e aguarda.
 echo "Garantindo que o banco de dados esteja online..."
+# O serviço se chama 'postgres' no docker-compose.yml
 docker compose up -d postgres
 
 # 3. Aguarda o PostgreSQL ficar acessível na rede Docker usando netcat.
-# Este é o passo crítico. 'musicoson-pg' é o container_name do banco.
-until nc -z musicoson-pg 5432; do
-  echo "Aguardando o PostgreSQL ficar pronto... (musicoson-pg:5432)"
+# O nome do container é 'musicoson-pg' e o nome da network é 'postgres'
+until nc -z postgres 5432; do
+  echo "Aguardando o PostgreSQL ficar pronto... (postgres:5432)"
   sleep 1
 done
 
 # 4. Executa as migrações do Prisma no container temporário
 echo "Executando migrações do Prisma..."
-# O comando 'run' usa a imagem 'musicoson-api' e tem acesso à DATABASE_URL via 'environment'
+# O serviço se chama 'backend' no docker-compose.yml
 docker compose run --rm backend npx prisma migrate deploy
 
-# 5. Sobe a aplicação (o backend já tem o 'command' para garantir a conexão)
+# 5. Sobe a aplicação
 echo "Subindo o serviço da API..."
 docker compose up -d
 
