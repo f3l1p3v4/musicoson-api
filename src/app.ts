@@ -17,6 +17,7 @@ app.use(
       'http://127.0.0.1:5173',
       'https://musicoson.creathor.com.br',
       'https://musicoson.teste.com.br',
+      'https://musicoson.netlify.app'
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
