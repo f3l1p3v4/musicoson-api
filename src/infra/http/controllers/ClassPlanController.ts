@@ -32,9 +32,15 @@ export class ClassPlanController {
 
   async list(req: Request, res: Response) {
     const { group, date } = req.query
+
+    console.log(date)
+
     const filters = {
       group: group as Group,
-      date: date ? new Date(date as string) : undefined,
+      //date: date ? new Date(date as string) : undefined,
+      date: date 
+      ? new Date(date as string) 
+      : new Date(new Date().getFullYear(), 0, 1),
     }
 
     const classPlans = await this.listClassPlansUseCase.execute(filters)

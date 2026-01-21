@@ -39,7 +39,7 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-  "email": "carlos@teste.com",
+  "email": "felipe@teste.com",
   "password": "123456"
 }
 
@@ -255,6 +255,9 @@ GET {{baseUrl}}/class-plan
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
+
+
+
 ###
 
 # @name CriarPlanoDeAulas
@@ -263,14 +266,14 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "group": "GROUP_02",
-  "date": "2025-02-10T19:00:11.000Z",
+  "group": "GROUP_01",
+  "date": "2026-02-07T19:00:11.000Z",
   "subject": "Teoria Musical",
-  "page": "12",
-  "exercise": "Exercício 3",
-  "classNumber": 4,
+  "page": "1",
+  "exercise": "Exercício 1",
+  "classNumber": 1,
   "semester": "S1",
-  "ano": 2025,
+  "ano": 2026,
   "method": "teórica"
 }
 
