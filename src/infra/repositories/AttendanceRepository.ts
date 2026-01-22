@@ -121,9 +121,9 @@ export class AttendanceRepository implements IAttendanceRepository {
     return lastAttendance?.classNumber || null // Retorna o maior classNumber ou null se não houver presenças
   }
 
-  async getUserAttendancesWithClassPlans(userId: string): Promise<ClassPlan[]> {
+  async getUserAttendancesWithClassPlans(filters?: { studentId: string, date?: Date }): Promise<ClassPlan[]> {
     const student = await this.prisma.user.findUnique({
-      where: { id: userId },
+      where: { id: filters?.studentId },
       select: {
         id: true,
         role: true,
@@ -139,6 +139,9 @@ export class AttendanceRepository implements IAttendanceRepository {
     const classPlans = await this.prisma.classPlan.findMany({
       where: {
         group: student.group,
+        date: filters?.date ? {
+          gte: filters.date
+        } : undefined,
       },
       orderBy: {
         date: 'asc',
@@ -149,6 +152,9 @@ export class AttendanceRepository implements IAttendanceRepository {
     const attendances = await this.prisma.attendance.findMany({
       where: {
         studentId: student.id,
+        date: filters?.date ? {
+          gte: filters.date
+        } : undefined,
       },
     })
 
@@ -179,16 +185,36 @@ export class AttendanceRepository implements IAttendanceRepository {
   }
 
   // Método para buscar todas as presenças
-  async getAllAttendances(): Promise<Attendance[]> {
-    return this.prisma.attendance.findMany()
+  async getAllAttendances( filters?: { date?: Date }): Promise<Attendance[]> {
+    return this.prisma.attendance.findMany({
+      where: {
+        date: filters?.date ? {
+          gte: filters.date
+        } : undefined,
+      }
+    })
   }
 
-  async getAllStudentsWithAttendance(): Promise<User[]> {
+  async getAllStudentsWithAttendance(filters?: { date?: Date }): Promise<User[]> {
     return this.prisma.user.findMany({
-      where: { role: 'STUDENT' },
+      where: { 
+        role: 'STUDENT',
+        studentAttendance: filters?.date ? {
+          some: {
+            date: {
+              gte: filters.date
+            }
+          }
+        } : undefined,
+      },
       orderBy: { name: 'asc' },
       include: {
         studentAttendance: {
+          where: {
+            date: filters?.date ? {
+              gte: filters.date
+            } : undefined,
+          },
           select: {
             id: true,
             date: true,

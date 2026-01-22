@@ -74,7 +74,11 @@ class AttendanceController {
 
   async listAttendances(req: Request, res: Response): Promise<Response> {
     try {
-      const attendances = await this.attendanceRepository.getAllAttendances()
+      const filters = {
+        date: new Date(new Date().getFullYear(), 0, 1)
+      };
+
+      const attendances = await this.attendanceRepository.getAllAttendances(filters)
       return res.status(200).json(attendances)
     } catch (error) {
       return res.status(500).json({ message: 'Erro interno do servidor' })
@@ -86,8 +90,12 @@ class AttendanceController {
     res: Response,
   ): Promise<Response> {
     try {
+      const filters = {
+        date: new Date(new Date().getFullYear(), 0, 1)
+      };
+
       const studentsWithAttendance =
-        await this.attendanceRepository.getAllStudentsWithAttendance()
+        await this.attendanceRepository.getAllStudentsWithAttendance(filters)
       return res.status(200).json(studentsWithAttendance)
     } catch (error) {
       return res.status(500).json({ message: 'Erro interno do servidor' })
@@ -100,10 +108,15 @@ class AttendanceController {
   ): Promise<Response> {
     const { studentId } = req.params
 
+    const filters = {
+      studentId,
+      date: new Date(new Date().getFullYear(), 0, 1)
+    };
+
     try {
       const attendances =
         await this.attendanceRepository.getUserAttendancesWithClassPlans(
-          studentId,
+          filters
         )
       return res.status(200).json(attendances)
     } catch (error) {
