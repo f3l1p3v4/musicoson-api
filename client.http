@@ -39,7 +39,7 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-  "email": "felipe@teste.com",
+  "email": "admin@teste.com",
   "password": "123456"
 }
 
@@ -254,9 +254,6 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/class-plan
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
-
-
-
 
 ###
 

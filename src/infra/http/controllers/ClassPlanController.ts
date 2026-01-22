@@ -33,18 +33,17 @@ export class ClassPlanController {
   async list(req: Request, res: Response) {
     const { group, date } = req.query
 
-    console.log(date)
+    const defaultDate = new Date(new Date().getFullYear(), 0, 1);
 
     const filters = {
       group: group as Group,
-      //date: date ? new Date(date as string) : undefined,
       date: date 
-      ? new Date(date as string) 
-      : new Date(new Date().getFullYear(), 0, 1),
-    }
+        ? new Date(date as string) 
+        : defaultDate,
+    };
 
-    const classPlans = await this.listClassPlansUseCase.execute(filters)
-    return res.json(classPlans)
+    const classPlans = await this.listClassPlansUseCase.execute(filters);
+    return res.json(classPlans);
   }
 
   async update(req: Request, res: Response) {

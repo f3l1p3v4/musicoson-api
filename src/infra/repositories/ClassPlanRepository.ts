@@ -29,17 +29,19 @@ export class ClassPlanRepository implements IClassPlanRepository {
     })
   }
 
-  async findAll(filters?: {
-    group?: Group
-    date?: Date
-  }): Promise<ClassPlan[]> {
-    return prisma.classPlan.findMany({
-      where: {
-        group: filters?.group,
-        date: filters?.date ? { equals: filters.date } : undefined,
-      },
-    })
-  }
+async findAll(filters?: { group?: Group; date?: Date }): Promise<ClassPlan[]> {
+  return prisma.classPlan.findMany({
+    where: {
+      group: filters?.group,
+      date: filters?.date ? {
+        gte: filters.date
+      } : undefined,
+    },
+    orderBy: {
+      date: 'asc'
+    }
+  })
+}
 
   async update(
     id: string,
