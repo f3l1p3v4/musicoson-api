@@ -1,4 +1,7 @@
-@baseUrl = http://localhost:3333
+//@baseUrl = http://localhost:3333
+
+@baseUrl = https://api.felipevaldez.com.br
+
 @authToken = {{login.response.body.token.token}}
 
 
@@ -10,7 +13,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name Usuario
-GET {{baseUrl}}/users/381ba0d2-f1e4-40de-a386-911523b53562
+GET {{baseUrl}}/users/76baabab-e286-47fd-9774-88ed3785cc19
 Content-Type: application/json
 Authorization: Bearer {{authToken}} 
 
@@ -39,7 +42,7 @@ POST {{baseUrl}}/users/login
 Content-Type: application/json
 
 {
-  "email": "admin@teste.com",
+  "email": "felipe@teste.com",
   "password": "123456"
 }
 
@@ -212,7 +215,7 @@ Authorization: Bearer {{authToken}}
 ###
 
 # @name ListarHistoricoDasAulasPorAluno
-GET {{baseUrl}}/attendance/student/e1f5f41e-c2d7-436c-a9f1-858555cde4f2
+GET {{baseUrl}}/attendance/student/76baabab-e286-47fd-9774-88ed3785cc19
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -263,7 +266,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-  "group": "GROUP_01",
+  "group": "GROUP_02",
   "date": "2026-02-07T19:00:11.000Z",
   "subject": "Teoria Musical",
   "page": "1",
