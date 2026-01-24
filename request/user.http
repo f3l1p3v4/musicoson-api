@@ -1,0 +1,72 @@
+//@baseUrl = http://localhost:3333
+
+@baseUrl = https://api.felipevaldez.com.br
+
+@authToken = {{login.response.body.token.token}}
+
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "felipe@teste.com",
+  "password": "123456"
+}
+
+###
+
+# @name ListarUsuarios
+GET {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}} 
+
+###
+
+# @name Usuario
+GET {{baseUrl}}/users/76baabab-e286-47fd-9774-88ed3785cc19
+Content-Type: application/json
+Authorization: Bearer {{authToken}} 
+
+###
+
+# @name CadastroUsuario
+POST {{baseUrl}}/users/register
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "Davi",
+  "instrument": "Violino",
+  "group": "GROUP_02",
+  "role": "STUDENT",
+  "email": "davi@teste.com",
+  "phone": "56151131322",
+  "password": "123456",
+  "pratical_level": "C_JOVEM"
+}
+
+###
+
+# @name AtualizarUsuario
+PUT {{baseUrl}}/users/12ec045f-1016-4fb2-b67d-77e07a9b9323
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "name": "teste",
+  "instrument": "teste",
+  "group": "GROUP_01",
+  "role": "STUDENT",
+  "email": "teste@teste.com",
+  "phone": "123456766",
+  "pratical_level": "C_JOVEM",
+}
+
+###
+
+# @name RemoverUsuario
+DELETE {{baseUrl}}/users/8cfb959d-8cc4-4cf9-8090-af8e3eb8d1dd
+Authorization: Bearer {{authToken}}
+
+###
+

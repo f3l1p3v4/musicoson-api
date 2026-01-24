@@ -1,0 +1,70 @@
+//@baseUrl = http://localhost:3333
+
+@baseUrl = https://api.felipevaldez.com.br
+@authToken = {{login.response.body.token.token}}
+
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "felipe@teste.com",
+  "password": "123456"
+}
+
+###
+
+# @name ListarTarefas
+
+GET {{baseUrl}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarTarefa
+POST {{baseUrl}}/tasks
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Estudar teoria teste",
+  "description": "Revisar teoria musical básica",
+  "category": "MSA",
+  "observation": "Focar em escalas maiores",
+  "delivery_date": "2024-08-15",
+  "studentId": "e1f5f41e-c2d7-436c-a9f1-858555cde4f2"
+}
+
+###
+
+# @name AtualizarStatusTarefa
+PUT {{baseUrl}}/tasks/22c0b46d-6881-4e49-b45c-ef42d75f7f12/status
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "COMPLETED"
+}
+
+###
+
+# @name ListarTarefasPorInstrutor
+GET {{baseUrl}}/tasks/instructor?instructorId=56398f61-7d35-4339-bead-28abc3fae9cc
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarTarefasPorAluno
+GET {{baseUrl}}/tasks/student?studentId=e1f5f41e-c2d7-436c-a9f1-858555cde4f2
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+###
+
+# @name RemoverTarefas
+DELETE {{baseUrl}}/tasks/c6123143-ee02-4b37-8f4d-0b93b9d9be70
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###

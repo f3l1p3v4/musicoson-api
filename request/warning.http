@@ -1,0 +1,52 @@
+//@baseUrl = http://localhost:3333
+@baseUrl = https://api.felipevaldez.com.br
+@authToken = {{login.response.body.token.token}}
+
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "felipe@teste.com",
+  "password": "123456"
+}
+
+###
+
+# @name ListarAvisos
+GET {{baseUrl}}/notices
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarAviso
+POST {{baseUrl}}/notices
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Novo aviso teste",
+  "description": "Reunião geral na próxima semana."
+}
+
+###
+
+# @name AtualizarAviso
+PUT {{baseUrl}}/notices/729717b4-ab3b-413f-b37e-6c81c8a94e48
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "teste",
+  "description": "Atualização na descrição do aviso."
+}
+
+###
+
+# @name RemoverAviso
+DELETE {{baseUrl}}/notices/8568b592-3d70-4e17-a341-18333873c556
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###

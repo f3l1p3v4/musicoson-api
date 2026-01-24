@@ -1,0 +1,67 @@
+//@baseUrl = http://localhost:3333
+@baseUrl = https://api.felipevaldez.com.br
+@authToken = {{login.response.body.token.token}}
+
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+  "email": "felipe@teste.com",
+  "password": "123456"
+}
+
+###
+
+# @name ListarHistorico
+GET {{baseUrl}}/attendance
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarChamada
+GET {{baseUrl}}/attendance/students
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name ListarHistoricoDasAulasPorAluno
+GET {{baseUrl}}/attendance/student/76baabab-e286-47fd-9774-88ed3785cc19
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name CriarChamada
+POST {{baseUrl}}/attendance
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "date": "2025-03-02T00:00:00.150Z",
+  "studentId": "f36ff46a-666b-4e8e-8eef-cfb1658c169e",
+  "instructorId": "381ba0d2-f1e4-40de-a386-911523b53562",
+  "status": "ABSENT"
+}
+
+###
+
+# @name AtualizarChamada
+PUT {{baseUrl}}/attendance/860dd6a2-afa6-40e4-9f03-8959bf34a9b4
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "status": "EXCUSED"
+}
+
+###
+
+# @name RemoverChamada
+DELETE {{baseUrl}}/attendance/860dd6a2-afa6-40e4-9f03-8959bf34a9b4
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
