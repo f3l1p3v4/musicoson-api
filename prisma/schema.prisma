@@ -103,6 +103,7 @@ model Meeting {
   id               String         @id @default(uuid())
   name             String
   programMinimumId String
+  order            Int            @default(0)
   programMinimum   ProgramMinimum @relation(fields: [programMinimumId], references: [id])
 }
 
@@ -110,6 +111,7 @@ model Cult {
   id               String         @id @default(uuid())
   name             String
   programMinimumId String
+  order            Int            @default(0)
   programMinimum   ProgramMinimum @relation(fields: [programMinimumId], references: [id])
 }
 
@@ -117,6 +119,7 @@ model Officialization {
   id               String         @id @default(uuid())
   name             String
   programMinimumId String
+  order            Int            @default(0)
   programMinimum   ProgramMinimum @relation(fields: [programMinimumId], references: [id])
 }
 

@@ -48,3 +48,32 @@ Authorization: Bearer {{authToken}}
 }
 
 ###
+
+# @name EditarProgramaMinimos
+POST {{baseUrl}}/program-minimum
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "instrument": "Viola",
+  "meetings": [
+    { "name": "N. LAOUREX Vol. 1 até pág. 35" },
+    { "name": "CCB até pág. 46 (lição 113) + H. SITT Vol 1 até lição 6" },
+    { "name": "MÉTODO FACILITADO - Ed. Britten - até pág. 40" },
+    { "name": "Obs.: Hinos 431 a 480 soprano no natural" }
+  ],
+  "cults": [
+    { "name": "N. LAOUREX Vol. 1 até pág. 35" },
+    { "name": "CCB até pág. 46 (lição 113) + H. SITT Vol 1 até lição 6" },
+    { "name": "MÉTODO FACILITADO - Ed. Britten - até pág. 40" },
+    { "name": "Obs.: Hinos 431 a 480 soprano no natural" }
+  ],
+  "officialization": [
+    { "name": "N. LAOUREX Vol. 1 até pág. 35" },
+    { "name": "CCB até pág. 46 (lição 113) + H. SITT Vol 1 até lição 6" },
+    { "name": "MÉTODO FACILITADO - Ed. Britten - até pág. 40" },
+    { "name": "Obs.: Hinos 431 a 480 soprano no natural" }
+  ]
+}
+
+###
