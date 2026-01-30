@@ -70,6 +70,9 @@ export class ProgramMinimumRepository implements IProgramMinimumRepository {
 
   async findAll(): Promise<ProgramMinimum[]> {
     return await prisma.programMinimum.findMany({
+    orderBy: {
+      id: 'asc', 
+    },
       include: {
         meetings: {
         orderBy: {
