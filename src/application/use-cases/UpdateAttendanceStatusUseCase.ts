@@ -1,11 +1,11 @@
 import { IAttendanceRepository } from '../../application/interfaces/IAttendanceRepository'
-import { Attendance } from '@prisma/client'
+import { Attendance, AttendanceStatus } from '@prisma/client' // Importe o AttendanceStatus aqui
 
-export class UpdateAttendanceUseCase {
-  // eslint-disable-next-line no-useless-constructor
+export class UpdateAttendanceStatusUseCase {
   constructor(private attendanceRepository: IAttendanceRepository) {}
 
-  async execute(attendanceId: string, status: string): Promise<Attendance> {
+  // Altere o tipo de 'status: string' para 'status: AttendanceStatus'
+  async execute(attendanceId: string, status: AttendanceStatus): Promise<Attendance> {
     const updatedAttendance =
       await this.attendanceRepository.updateAttendanceStatus(
         attendanceId,

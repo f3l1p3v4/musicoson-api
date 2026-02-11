@@ -1,0 +1,1 @@
+{"version":3,"file":"ListNoticesUseCase.js","sourceRoot":"","sources":["../../../src/application/use-cases/ListNoticesUseCase.ts"],"names":[],"mappings":";;;AAEA,MAAa,kBAAkB;IAC7B,kDAAkD;IAClD,YAAoB,gBAAkC;QAAlC,qBAAgB,GAAhB,gBAAgB,CAAkB;IAAG,CAAC;IAE1D,KAAK,CAAC,OAAO;QACX,MAAM,OAAO,GAAG,MAAM,IAAI,CAAC,gBAAgB,CAAC,OAAO,EAAE,CAAA;QACrD,OAAO,OAAO,CAAA;IAChB,CAAC;CACF;AARD,gDAQC"}
