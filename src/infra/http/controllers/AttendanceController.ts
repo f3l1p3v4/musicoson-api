@@ -74,9 +74,32 @@ class AttendanceController {
 
   async listAttendances(req: Request, res: Response): Promise<Response> {
     try {
+      const { year, period } = req.query
+
+      if (year && period) {
+        const parsedYear = parseInt(year as string)
+        const parsedPeriod = parseInt(period as string)
+
+        const startMonth = parsedPeriod === 1 ? 0 : 6
+        const endMonth = parsedPeriod === 1 ? 5 : 11
+        const endDay = parsedPeriod === 1 ? 30 : 31
+
+        const startDate = new Date(parsedYear, startMonth, 1)
+        const endDate = new Date(parsedYear, endMonth, endDay, 23, 59, 59)
+
+        const filters = {
+          startDate,
+          endDate,
+        }
+
+        const attendances =
+          await this.attendanceRepository.getAllAttendances(filters)
+        return res.status(200).json(attendances)
+      }
+
       const filters = {
         date: new Date(new Date().getFullYear(), 0, 1)
-      };
+      }
 
       const attendances = await this.attendanceRepository.getAllAttendances(filters)
       return res.status(200).json(attendances)
@@ -90,9 +113,33 @@ class AttendanceController {
     res: Response,
   ): Promise<Response> {
     try {
-      const filters = {
+      const { year, period } = req.query
+
+      if (year && period) {
+        const parsedYear = parseInt(year as string)
+        const parsedPeriod = parseInt(period as string)
+
+        const startMonth = parsedPeriod === 1 ? 0 : 6
+        const endMonth = parsedPeriod === 1 ? 5 : 11
+        const endDay = parsedPeriod === 1 ? 30 : 31
+
+        const startDate = new Date(parsedYear, startMonth, 1)
+        const endDate = new Date(parsedYear, endMonth, endDay, 23, 59, 59)
+
+        const filters = {
+          startDate,
+          endDate,
+        }
+
+        const studentsWithAttendance =
+          await this.attendanceRepository.getAllStudentsWithAttendance(filters)
+        return res.status(200).json(studentsWithAttendance)
+      }
+
+      const filters: any = {
+        startDate: new Date(new Date().getFullYear(), 0, 1),
         date: new Date(new Date().getFullYear(), 0, 1)
-      };
+      }
 
       const studentsWithAttendance =
         await this.attendanceRepository.getAllStudentsWithAttendance(filters)
@@ -156,8 +203,7 @@ class AttendanceController {
   }
 }
 
-// Exporte a função que cria o AttendanceController passando o repositório como parâmetro
 export const createAttendanceController = () => {
-  const attendanceRepository = new AttendanceRepository() // Cria a instância do repositório
-  return new AttendanceController(attendanceRepository) // Passa o repositório no construtor
+  const attendanceRepository = new AttendanceRepository()
+  return new AttendanceController(attendanceRepository)
 }
