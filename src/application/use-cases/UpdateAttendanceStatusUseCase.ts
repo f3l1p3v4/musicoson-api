@@ -4,7 +4,6 @@ import { Attendance, AttendanceStatus } from '@prisma/client' // Importe o Atten
 export class UpdateAttendanceStatusUseCase {
   constructor(private attendanceRepository: IAttendanceRepository) {}
 
-  // Altere o tipo de 'status: string' para 'status: AttendanceStatus'
   async execute(attendanceId: string, status: AttendanceStatus): Promise<Attendance> {
     const updatedAttendance =
       await this.attendanceRepository.updateAttendanceStatus(

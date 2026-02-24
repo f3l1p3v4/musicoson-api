@@ -1,7 +1,4 @@
-// src/application/interfaces/IAttendanceRepository.ts
 import { Attendance, AttendanceStatus, ClassPlan } from '@prisma/client'
-
-// Definimos um tipo para os filtros para facilitar o reuso
 export interface AttendanceFilters {
   date?: Date;
   startDate?: Date;
