@@ -14,6 +14,12 @@ router.post(
   TaskController.createTask,
 )
 router.put(
+  '/:id',
+  ensureAuthenticated,
+  ensureInstructor,
+  TaskController.updateTask,
+)
+router.put(
   '/:id/status',
   ensureAuthenticated,
   ensureInstructor,

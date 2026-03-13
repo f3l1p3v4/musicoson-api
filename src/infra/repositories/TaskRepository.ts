@@ -1,5 +1,6 @@
 import { PrismaClient, Task, Group } from '@prisma/client'
 import { CreateTaskDTO } from '../../application/dtos/CreateTaskDTO'
+import { UpdateTaskDTO } from '../../application/dtos/UpdateTaskDTO'
 import { ITaskRepository } from '../../application/interfaces/ITaskRepository'
 
 export class TaskRepository implements ITaskRepository {
@@ -42,6 +43,13 @@ export class TaskRepository implements ITaskRepository {
     })
   }
 
+  async update(id: string, data: UpdateTaskDTO): Promise<Task> {
+    return this.prisma.task.update({
+      where: { id },
+      data,
+    })
+  }
+
   async updateStatus(
     id: string,
     status: 'PENDING' | 'COMPLETED',
@@ -64,10 +72,10 @@ export class TaskRepository implements ITaskRepository {
     })
   }
 
-  async listByStudent(studentId: string, group: Group): Promise<Task[]> {
+  async listByStudent(studentId: string, group: string | null): Promise<Task[]> {
     return this.prisma.task.findMany({
       where: {
-        OR: [{ studentId }, { group }],
+        OR: [{ studentId }, { group: group as Group }],
       },
     })
   }

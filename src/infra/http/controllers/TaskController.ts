@@ -1,8 +1,10 @@
 import { Request, Response } from 'express'
 import { CreateTaskUseCase } from '../../../application/use-cases/CreateTaskUseCase'
+import { UpdateTaskUseCase } from '../../../application/use-cases/UpdateTaskUseCase'
 import { UpdateTaskStatusUseCase } from '../../../application/use-cases/UpdateTaskStatusUseCase'
 import { ListTasksUseCase } from '../../../application/use-cases/ListTasksUseCase'
 import { createTaskSchema } from '../../../application/schemas/CreateTaskSchema'
+import { updateTaskSchema } from '../../../application/schemas/UpdateTaskSchema'
 import { updateTaskStatusSchema } from '../../../application/schemas/UpdateTaskStatusSchema'
 import { DeleteTaskUseCase } from '../../../application/use-cases/DeleteTaskUseCase'
 import { TaskRepository } from '../../.../../../infra/repositories/TaskRepository'
@@ -27,6 +29,28 @@ class TaskController {
       const createTaskUseCase = new CreateTaskUseCase(taskRepository)
       const task = await createTaskUseCase.execute(userId!, taskData)
       res.status(201).json(task)
+    } catch (error: unknown) {
+      if (error instanceof NotFoundError) {
+        res.status(404).json({ error: error.message })
+      } else if (error instanceof UnauthorizedError) {
+        res.status(403).json({ error: error.message })
+      } else if (error instanceof AppError) {
+        res.status(error.statusCode).json({ error: error.message })
+      } else if (error instanceof Error) {
+        res.status(400).json({ error: error.message })
+      } else {
+        res.status(500).json({ error: 'Internal Server Error' })
+      }
+    }
+  }
+
+  static async updateTask(req: Request, res: Response) {
+    try {
+      const { id } = req.params
+      const taskData = updateTaskSchema.parse(req.body)
+      const updateTaskUseCase = new UpdateTaskUseCase(taskRepository)
+      const task = await updateTaskUseCase.execute(id, taskData)
+      res.status(200).json(task)
     } catch (error: unknown) {
       if (error instanceof NotFoundError) {
         res.status(404).json({ error: error.message })

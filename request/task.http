@@ -38,6 +38,22 @@ Authorization: Bearer {{authToken}}
 
 ###
 
+# @name AtualizarTarefa
+PUT {{baseUrl}}/tasks/22c0b46d-6881-4e49-b45c-ef42d75f7f12
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "Estudar teoria atualizada",
+  "description": "Revisar teoria musical avançada",
+  "category": "HINOS",
+  "observation": "Focar em escalas menores",
+  "delivery_date": "2024-08-20",
+  "status": "PENDING"
+}
+
+###
+
 # @name AtualizarStatusTarefa
 PUT {{baseUrl}}/tasks/22c0b46d-6881-4e49-b45c-ef42d75f7f12/status
 Content-Type: application/json
