@@ -106,49 +106,48 @@ export class AttendanceRepository implements IAttendanceRepository {
     return lastAttendance?.classNumber || null
   }
 
-  async getUserAttendancesWithClassPlans(filters?: AttendanceFilters): Promise<ClassPlan[]> {
+  async getUserAttendancesWithClassPlans(filters?: AttendanceFilters): Promise<any[]> {
     const student = await this.prisma.user.findUnique({
       where: { id: filters?.studentId },
-      select: {
-        id: true,
-        role: true,
-        group: true,
-      },
+      select: { id: true, role: true, group: true },
     })
 
     if (!student || student.role !== 'STUDENT' || !student.group) {
       throw new Error('Aluno não encontrado ou sem grupo definido.')
     }
 
-  const classPlans = await this.prisma.classPlan.findMany({
-    where: {
-      group: student.group,
-      date: filters?.date
-        ? { gte: filters.date }
-        : undefined,
-    },
-    orderBy: { date: 'asc' },
-  })
-
-  const attendances = await this.prisma.attendance.findMany({
-    where: {
-      studentId: student.id,
-      date: filters?.date
-        ? { gte: filters.date }
-        : undefined,
-    },
-  })
-
-    const result = classPlans.map((plan) => {
-      const attendance = attendances.find(
-        (att) => att.classNumber === plan.classNumber,
-      )
-
-      return {
-        ...plan,
-        attendance: attendance || null,
-      }
+    const classPlans = await this.prisma.classPlan.findMany({
+      where: { group: student.group, date: filters?.date ? { gte: filters.date } : undefined },
+      orderBy: { date: 'asc' },
     })
+
+    const attendances = await this.prisma.attendance.findMany({
+      where: { studentId: student.id, date: filters?.date ? { gte: filters.date } : undefined },
+    })
+
+    const result: any[] = classPlans.map((plan) => {
+      const attendance = attendances.find((att) => att.classNumber === plan.classNumber)
+      return { ...plan, attendance: attendance || null }
+    })
+
+    // NOVO: Adicionar as aulas práticas e presenças extras no retorno ("fakes" da aula prática)
+    const usedClassNumbers = new Set(classPlans.map(p => p.classNumber));
+
+    attendances.forEach(att => {
+      if (att.classNumber !== null && !usedClassNumbers.has(att.classNumber)) {
+        // Gera um item fictício de classe para a presença prática aparecer na resposta do aluno
+        result.push({
+          id: att.id,
+          group: student.group,
+          date: att.date,
+          subject: att.classNumber > 90 ? 'Aula Prática' : 'Aula Extra',
+          page: '',
+          exercise: '',
+          classNumber: att.classNumber,
+          attendance: att
+        });
+      }
+    });
 
     return result
   }
@@ -190,9 +189,9 @@ export class AttendanceRepository implements IAttendanceRepository {
           where: {
             date: filters?.startDate && filters?.endDate
               ? {
-                  gte: filters.startDate,
-                  lte: filters.endDate,
-                }
+                gte: filters.startDate,
+                lte: filters.endDate,
+              }
               : filters?.date
                 ? { gte: filters.date }
                 : undefined,
